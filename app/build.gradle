@@ -1,0 +1,120 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "30.0.3"
+
+    dataBinding {
+        enabled = true
+    }
+
+    defaultConfig {
+        applicationId "com.app.mybaseframwork"
+        minSdkVersion 19
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        flavorDimensions "versionCode"//1.配置dimension
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        relealse {
+            keyAlias 'framwork'
+            keyPassword '456123'
+            storePassword '456123'
+            storeFile file("$rootDir/base_key.jks")
+        }
+
+        debug {
+            //TODO 修改为你的release签名文件信息
+            keyAlias 'framwork'
+            keyPassword '456123'
+            storePassword '456123'
+            storeFile file("$rootDir/base_key.jks")
+            //TODO 你的debug签名文件信息
+        }
+    }
+
+
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            minifyEnabled false
+            zipAlignEnabled true
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+
+        release {
+            minifyEnabled false
+            zipAlignEnabled true
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            signingConfig signingConfigs.relealse
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def fileName = "${applicationId}_(" + new Date().format("yyyy-MM-dd") + ")v_${versionName}" + "_${variant.productFlavors[0].name}.apk"
+            outputFileName = fileName
+
+        }
+    }
+
+    productFlavors {
+        //测试服务器
+        dev {
+            //测试包名
+//            applicationId "com.huyan.walseadev"
+            versionCode 1  //版本号
+            versionName "1.0.0"  //版本名称
+
+            //在java文件中用BuildConfig.HOST_URL引用
+            buildConfigField("String", "HOST_URL", "\"https://testapi.walsea.com\"")
+            dimension "versionCode"//配置第一步中的flavorDimensions 配置的“test”，这里我们没有额外的需求不多做配置
+            //可以在manifaset中直接用${xxxx}引用
+            manifestPlaceholders = [
+                    VIVO_APPID : "vivo的APPID"
+            ]
+
+        }
+
+        //正式服务器
+        formal {
+            //正式包名
+//            applicationId "com.huyan.walsea"
+            versionCode 8   //版本号
+            versionName "0.0.8"  //版本名称
+            //在java文件中用BuildConfig.HOST_URL引用
+            buildConfigField("String", "HOST_URL", "\"https://api.walsea.com\"")
+            dimension "versionCode"//配置第一步中的flavorDimensions 配置的“test”，这里我们没有额外的需求不多做配置
+            //可以在manifaset中直接用${xxxx}引用
+            manifestPlaceholders = [
+                    VIVO_APPID : "vivo的APPID"
+            ]
+        }
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    implementation project(path: ':superbase')
+    implementation project(path: ':fastframework')
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+}

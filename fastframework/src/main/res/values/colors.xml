@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFF</color>
+    <color name="retry_color">#FF00AAEE</color>
+    <color name="black">#000</color>
+    <color name="progress_bar_color">#FF2187FF</color>
+    <color name="status_layout_background_color">#FFFFFF</color>
+    <color name="line_color">#F2F2F2</color>
+    <color name="textColorPrimary">#ffffff</color>
+    <color name="colorAccent">#FF736C</color>
+</resources>

@@ -1,0 +1,5 @@
+rootProject.name = "MyBaseFramwork"
+include ':app'
+include ':superbase'
+include ':fastframework'
+include ':xsnow'
