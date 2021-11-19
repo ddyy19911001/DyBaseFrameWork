@@ -33,8 +33,5 @@ public class MainActivity extends MyBaseDataBindingActivity<ActivityMainBinding>
     }
 
 
-    @Override
-    public View setLoadingRootView() {
-        return super.setLoadingRootView();
-    }
+
 }
