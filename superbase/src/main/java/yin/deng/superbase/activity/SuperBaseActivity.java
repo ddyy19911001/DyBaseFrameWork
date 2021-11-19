@@ -70,8 +70,8 @@ public abstract class SuperBaseActivity extends AppCompatActivity implements Cus
         StatuBarUtils.setStatusBarTranslucent(this,true);
         onNotSetNetWorkListener();
         initNetWork();
-        //设置状态栏
-        setStatusStyle(Color.WHITE);
+        //设置沉浸式状态栏
+        setStatusImageBottomFullScreen(true);
         isMainActivity = setIsExitActivity();
         onNotInitFirst();
         initFirst();
@@ -299,33 +299,26 @@ public abstract class SuperBaseActivity extends AppCompatActivity implements Cus
         }
     }
 
-    /**
-     * 设置状态栏透明，状态栏文字为黑色
-     */
-    public void setStatusTranslentStyleLight() {
+
+    //参数传入是否底色为浅色背景，默认为浅色背景
+    public void setStatusImageBottomFullScreen(boolean isLightStatusBar){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // 设置状态栏底色白色
+            // 设置状态栏底色
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            getWindow().setStatusBarColor(getResources().getColor(R.color.trans));
-            // 设置状态栏字体黑色
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+            // 设置状态栏字体颜色黑色
+            View decor = getWindow().getDecorView();
+            if (isLightStatusBar) {
+                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            } else {
+                // 设置状态栏底色
+                // 设置状态栏字体颜色白色
+                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            }
         }
     }
 
-    /**
-     * 设置状态栏透明，状态栏文字为白色
-     */
-    public void setStatusTranslentStyleBlack() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // 设置状态栏底色白色
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            getWindow().setStatusBarColor(getResources().getColor(R.color.trans));
-            // 设置状态栏字体黑色
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-        }
-    }
 
 
     public void initNetWork() {

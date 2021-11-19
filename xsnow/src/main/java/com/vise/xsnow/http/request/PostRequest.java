@@ -1,5 +1,9 @@
 package com.vise.xsnow.http.request;
 
+import android.text.TextUtils;
+import android.util.Log;
+
+import com.vise.xsnow.common.GsonUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.vise.xsnow.http.core.ApiManager;
@@ -11,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -64,6 +69,22 @@ public class PostRequest extends BaseHttpRequest<PostRequest> {
         }
         return apiService.post(suffixUrl, params).compose(this.<T>norTransformer(type,getNowReqeustUrl()));
     }
+
+
+    @Override
+    public void printRequestLog() {
+        String paramsStr=this.params.size()==0?"null": GsonUtil.gson().toJson(this.params);
+        if(this.params.size()==0&& !TextUtils.isEmpty(this.content)){
+            paramsStr=this.content;
+        }
+        String headerStr=((this.headers.headersMap==null||this.headers.headersMap.size()==0)?"null": this.headers.toJSONString());
+        httpGlobalConfig.startTimer((this.baseUrl==null?httpGlobalConfig.getBaseUrl():this.baseUrl)+suffixUrl+"/params="+paramsStr);
+        String logTag = httpGlobalConfig.getTag();
+        String url = (this.baseUrl == null ? httpGlobalConfig.getBaseUrl() : this.baseUrl) + suffixUrl;
+        String requestBodyLog="（请求发送："+url+"）\n请求地址："+url+"\n"+"请求时间："+format.format(new Date())+"\n请求头："+headerStr+"\n请求参数："+paramsStr;
+        Log.i(logTag, requestBodyLog);
+    }
+
 
     @Override
     protected <T> Observable<CacheResult<T>> cacheExecute(Type type) {

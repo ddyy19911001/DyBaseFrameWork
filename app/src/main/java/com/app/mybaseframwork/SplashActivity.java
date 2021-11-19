@@ -9,10 +9,6 @@ import com.app.mybaseframwork.databinding.ActivitySplashBinding;
 import yin.deng.normalutils.utils.DownTimer;
 
 public class SplashActivity extends MyBaseDataBindingActivity<ActivitySplashBinding> {
-    @Override
-    public void onViewClicked(View v) {
-
-    }
 
     @Override
     public int setLayout() {

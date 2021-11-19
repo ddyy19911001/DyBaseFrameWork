@@ -34,7 +34,9 @@ public class ApiFunc<T> implements Function<ResponseBody, T> {
             }
         }
         ViseHttp.CONFIG().timers.remove(keyRequestUrl);
-        ViseHttp.CONFIG().onRequestWatingDialogListener.onRequestOverLoadingNeedClose();
+        if(ViseHttp.CONFIG().onRequestWatingDialogListener!=null) {
+            ViseHttp.CONFIG().onRequestWatingDialogListener.onRequestOverLoadingNeedClose();
+        }
         Gson gson = new Gson();
         String json;
         if(type.equals(ResponseBody.class)){
@@ -46,7 +48,7 @@ public class ApiFunc<T> implements Function<ResponseBody, T> {
         }
         try {
             json = responseBody.string();
-            Log.i(ViseHttp.CONFIG().getTag(), "请求响应：("+requestUrl+")\n"+json);
+            Log.i(ViseHttp.CONFIG().getTag(), "请求响应：\n("+requestUrl+")\n"+json);
             if (type.equals(String.class)) {
                 T obj= (T) json;
                 ViseHttp.CONFIG().onInfoGet(obj);

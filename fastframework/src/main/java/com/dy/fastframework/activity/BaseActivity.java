@@ -12,7 +12,7 @@ import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
 import yin.deng.normalutils.utils.NoDoubleClickListener;
 import yin.deng.superbase.activity.SuperBaseActivity;
 
-public abstract class BaseActivity extends SuperBaseActivity implements OnViewOnceClickListener, OnStatusChildClickListener {
+public abstract class BaseActivity extends SuperBaseActivity implements OnStatusChildClickListener {
     public StatusLayoutManager loadingManager;
 
     public TextView getEmptyTv(){
@@ -51,25 +51,8 @@ public abstract class BaseActivity extends SuperBaseActivity implements OnViewOn
     }
 
 
-    /**
-     * 单次点击事件监听类
-     */
-    NoDoubleClickListener clickListener=new NoDoubleClickListener() {
-        @Override
-        protected void onNoDoubleClick(View v) {
-            BaseActivity.this.onViewClicked(v);
-        }
-    };
 
-    /**
-     * 将需要设置点击事件的按钮设置进来
-     * @param views
-     */
-    public void setClickListener(View...views){
-        for(View view:views) {
-            view.setOnClickListener(clickListener);
-        }
-    }
+
 
 
     public View setLoadingRootView() {

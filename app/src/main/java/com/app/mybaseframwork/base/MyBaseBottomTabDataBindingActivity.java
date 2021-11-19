@@ -1,9 +1,9 @@
 package com.app.mybaseframwork.base;
 
+
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
-import com.dy.fastframework.activity.BaseActivity;
 import com.dy.fastframework.activity.BaseBottomTabActivity;
 
 /**

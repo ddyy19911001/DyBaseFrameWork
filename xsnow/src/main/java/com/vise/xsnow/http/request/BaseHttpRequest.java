@@ -81,6 +81,11 @@ public abstract class BaseHttpRequest<R extends BaseHttpRequest> extends BaseReq
     public <T> void request(ACallback<T> callback) {
         generateGlobalConfig();
         generateLocalConfig();
+        printRequestLog();
+        execute(callback);
+    }
+
+    public void printRequestLog() {
         String paramsStr=this.params.size()==0?"null": GsonUtil.gson().toJson(this.params);
         String headerStr=((this.headers.headersMap==null||this.headers.headersMap.size()==0)?"null": this.headers.toJSONString());
         httpGlobalConfig.startTimer((this.baseUrl==null?httpGlobalConfig.getBaseUrl():this.baseUrl)+suffixUrl+"/params="+paramsStr);
@@ -88,7 +93,6 @@ public abstract class BaseHttpRequest<R extends BaseHttpRequest> extends BaseReq
         String url = (this.baseUrl == null ? httpGlobalConfig.getBaseUrl() : this.baseUrl) + suffixUrl;
         String requestBodyLog="（请求发送："+url+"）\n请求地址："+url+"\n"+"请求时间："+format.format(new Date())+"\n请求头："+headerStr+"\n请求参数："+paramsStr;
         Log.i(logTag, requestBodyLog);
-        execute(callback);
     }
 
 
@@ -140,10 +144,6 @@ public abstract class BaseHttpRequest<R extends BaseHttpRequest> extends BaseReq
             @Override
             public ObservableSource<T> apply(Observable<ResponseBody> apiResultObservable) {
                 String paramsStr=params.size()==0?"null": GsonUtil.gson().toJson(params);
-                String url = (httpGlobalConfig.getBaseUrl()) + suffixUrl;
-                String headerStr=((BaseHttpRequest.this.headers.headersMap==null||BaseHttpRequest.this.headers.headersMap.size()==0)?"null": BaseHttpRequest.this.headers.toJSONString());
-                String requestBodyLog="（请求发送："+url+"）\n请求地址："+url+"\n"+"请求时间："+format.format(new Date())+"\n请求头："+headerStr+"\n请求参数："+paramsStr;
-                Log.i(logTag, requestBodyLog);
                 return apiResultObservable
                         .subscribeOn(Schedulers.io())
                         .unsubscribeOn(Schedulers.io())
