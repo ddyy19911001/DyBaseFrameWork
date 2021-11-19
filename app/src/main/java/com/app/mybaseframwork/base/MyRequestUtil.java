@@ -9,14 +9,14 @@ import java.util.HashMap;
 
 import yin.deng.normalutils.utils.LogUtils;
 
-public class MyBaseRequestUtil {
+public class MyRequestUtil {
     public static int SUCCESS=200;
-    private static MyBaseRequestUtil myBaseRequestUtil;
-    public  static MyBaseRequestUtil getInstance(){
-        if(myBaseRequestUtil==null){
-            myBaseRequestUtil=new MyBaseRequestUtil();
+    private static MyRequestUtil myRequestUtil;
+    public  static MyRequestUtil getInstance(){
+        if(myRequestUtil ==null){
+            myRequestUtil =new MyRequestUtil();
         }
-        return myBaseRequestUtil;
+        return myRequestUtil;
     }
 
     /**
@@ -35,9 +35,9 @@ public class MyBaseRequestUtil {
 
     //是否需要对服务器错误码进行单独处理
     private <T extends BaseInfo> boolean needDealWithCode(T data) {
-        if(data.code==-1) {
-            return true;
-        }
+        /**
+         * 这里是对服务器错误码单独处理的逻辑
+         */
         return false;
     }
 
@@ -125,7 +125,7 @@ public class MyBaseRequestUtil {
     }
 
 
-    public <T extends BaseInfo>void upload(String apiUrl, HashMap<String, File> params,OnDataOkListener dataOkListener) {
+    public <T extends BaseInfo>void sendUpload(String apiUrl, HashMap<String, File> params,OnDataOkListener dataOkListener) {
         ViseHttp.UPLOAD(apiUrl)
                 .addFiles(params)
                 .request(new ACallback<T>() {

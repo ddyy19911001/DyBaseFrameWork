@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
+import com.app.mybaseframwork.base.base_model.MyBaseViewModel;
 import com.dy.fastframework.activity.BaseActivity;
 import com.dy.fastframework.fragment.BaseFragment;
 
@@ -20,8 +21,13 @@ import com.dy.fastframework.fragment.BaseFragment;
  * 复制此Fragment到自己的基类中
  * @param <T>
  */
-public abstract class MyBaseDataBindingFragment<T extends ViewDataBinding> extends BaseFragment {
+public abstract class MyBaseDataBindingFragment<V extends MyBaseViewModel<T>,T extends ViewDataBinding> extends BaseFragment {
     public T binding;
+    public V viewModel;
+
+
+    protected abstract V createViewModel();
+
 
     @Nullable
     @Override
@@ -32,6 +38,7 @@ public abstract class MyBaseDataBindingFragment<T extends ViewDataBinding> exten
             return mRootView;
         }
         binding = DataBindingUtil.inflate(inflater, setContentView(), container, false);
+        viewModel=createViewModel();
         mRootView = binding.getRoot();
         bindViewWithId(mRootView);
         mViewInflateFinished = true;

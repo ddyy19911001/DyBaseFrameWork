@@ -1,4 +1,4 @@
-package com.app.mybaseframwork.base;
+package com.app.mybaseframwork.base.base_model;
 
 import android.app.Activity;
 import android.app.Dialog;

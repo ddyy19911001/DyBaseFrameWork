@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
+import com.app.mybaseframwork.base.base_model.MyBaseViewModel;
 import com.dy.fastframework.fragment.BaseFragment;
 import com.dy.fastframework.fragment.BaseTabViewFragment;
 
@@ -19,8 +20,13 @@ import com.dy.fastframework.fragment.BaseTabViewFragment;
  * 复制此Fragment到自己的基类中
  * @param <T>
  */
-public abstract class MyBaseTabDataBindingFragment<T extends ViewDataBinding> extends BaseTabViewFragment {
+public abstract class MyBaseTabDataBindingFragment<V extends MyBaseViewModel<T>,T extends ViewDataBinding> extends BaseTabViewFragment {
     public T binding;
+    public V viewModel;
+
+
+    protected abstract V createViewModel();
+
 
     @Nullable
     @Override
@@ -31,6 +37,7 @@ public abstract class MyBaseTabDataBindingFragment<T extends ViewDataBinding> ex
             return mRootView;
         }
         binding = DataBindingUtil.inflate(inflater, setContentView(), container, false);
+        viewModel=createViewModel();
         mRootView = binding.getRoot();
         bindViewWithId(mRootView);
         mViewInflateFinished = true;
