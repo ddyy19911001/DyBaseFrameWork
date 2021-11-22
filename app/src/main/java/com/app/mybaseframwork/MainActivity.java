@@ -1,7 +1,8 @@
 package com.app.mybaseframwork;
 
+import android.graphics.Color;
+
 import com.app.mybaseframwork.base.MyBaseDataBindingActivity;
-import com.app.mybaseframwork.base.base_model.MyBaseViewModel;
 import com.app.mybaseframwork.databinding.ActivityMainBinding;
 
 /**
@@ -15,7 +16,7 @@ public class MainActivity extends MyBaseDataBindingActivity<MainActivityViewMode
 
     @Override
     public void initFirst() {
-
+        viewModel.getSystemData();
     }
 
 

@@ -36,10 +36,8 @@ public class ToastUtil {
         //自定义toast文本
         mTextView = (TextView)view.findViewById(R.id.toast_msg);
         mTextView.setText(msg);
-        Log.i("ToastUtil", "Toast start...");
         if (mToast == null) {
             mToast = new Toast(context);
-            Log.i("ToastUtil", "Toast create...");
         }
         //设置toast居中显示
         mToast.setGravity(Gravity.BOTTOM, 0, ScreenUtils.getScreenHeight(context)/11);
@@ -62,7 +60,6 @@ public class ToastUtil {
      */
     public void show() {
         mToast.show();
-        Log.i("ToastUtil", "Toast show...");
     }
 
     /**
@@ -71,7 +68,6 @@ public class ToastUtil {
      */
     public void show(int duration) {
         timeCount = new TimeCount(duration, 1000);
-        Log.i("ToastUtil", "Toast show...");
         if (canceled) {
             timeCount.start();
             canceled = false;
@@ -87,7 +83,6 @@ public class ToastUtil {
             mToast.cancel();
         }
         canceled = true;
-        Log.i("ToastUtil", "Toast that customed duration hide...");
     }
 
     private void showUntilCancel() {
@@ -98,7 +93,6 @@ public class ToastUtil {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Log.i("ToastUtil", "Toast showUntilCancel...");
                 showUntilCancel();
             }
         }, Toast.LENGTH_LONG);

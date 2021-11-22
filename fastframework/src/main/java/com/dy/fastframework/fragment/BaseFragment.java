@@ -28,9 +28,8 @@ import yin.deng.normalutils.utils.NoDoubleClickListener;
 import yin.deng.superbase.fragment.SuperBaseFragment;
 import yin.deng.superbase.fragment.ViewPagerSuperBaseFragment;
 
-public abstract class BaseFragment extends SuperBaseFragment implements OnViewOnceClickListener, OnStatusChildClickListener {
+public abstract class BaseFragment extends SuperBaseFragment{
     private CommonMsgDialog commonMsgDialog;
-    public StatusLayoutManager loadingManager;
     private boolean isFirstGetData=true;
     public Dialog mLoadingDialog;
 
@@ -46,13 +45,7 @@ public abstract class BaseFragment extends SuperBaseFragment implements OnViewOn
         return commonMsgDialog;
     }
 
-    public TextView getEmptyTv(){
-        if(loadingManager!=null&&loadingManager.getEmptyLayout()!=null) {
-            return loadingManager.getEmptyLayout().findViewById(R.id.re_try_bt);
-        }else{
-            return null;
-        }
-    }
+
 
 
 
@@ -77,25 +70,7 @@ public abstract class BaseFragment extends SuperBaseFragment implements OnViewOn
     }
 
 
-    /**
-     * 单次点击事件监听类
-     */
-    NoDoubleClickListener clickListener=new NoDoubleClickListener() {
-        @Override
-        protected void onNoDoubleClick(View v) {
-            BaseFragment.this.onViewClicked(v);
-        }
-    };
 
-    /**
-     * 将需要设置点击事件的按钮设置进来
-     * @param views
-     */
-    public void setClickListener(View...views){
-        for(View view:views) {
-            view.setOnClickListener(clickListener);
-        }
-    }
 
 
     @Nullable
@@ -108,34 +83,8 @@ public abstract class BaseFragment extends SuperBaseFragment implements OnViewOn
         }
         bindViewWithId(mRootView);
         mViewInflateFinished = true;
-        if(setLoadingRootView()!=null) {
-            loadingManager = ActivityLoadUtil.getInstance().useDefaultLoadLayout(setLoadingRootView(), this);
-        }
         init();
         return mRootView;
-    }
-
-
-    public View setLoadingRootView() {
-        return null;
-    }
-
-
-
-
-    @Override
-    public void onEmptyChildClick(View view) {
-
-    }
-
-    @Override
-    public void onErrorChildClick(View view) {
-
-    }
-
-    @Override
-    public void onCustomerChildClick(View view) {
-
     }
 
 

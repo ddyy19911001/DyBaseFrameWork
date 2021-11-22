@@ -68,7 +68,7 @@ public class NotificationUtils {
         Intent intent = new Intent(context, clickOpenClass);
         PendingIntent pendingIntent = PendingIntent.getActivity(context,0,intent,0);
         //为了保证所有的通知一致，使用V7包的NotificationCompat.Builder()
-        String CHANNEL_ID = SuperBaseApp.app.getPackageName();
+        String CHANNEL_ID = context.getPackageName();
         String CHANNEL_NAME = "NormalMsg";
         NotificationChannel notificationChannel = null;
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
@@ -104,7 +104,7 @@ public class NotificationUtils {
         Intent intent = new Intent(context, clickOpenClass);
         PendingIntent pendingIntent = PendingIntent.getActivity(context,0,intent,0);
         //为了保证所有的通知一致，使用V7包的NotificationCompat.Builder()
-        String CHANNEL_ID = SuperBaseApp.app.getPackageName();
+        String CHANNEL_ID = context.getPackageName();
         String CHANNEL_NAME = "NormalMsg";
         NotificationChannel notificationChannel = null;
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){

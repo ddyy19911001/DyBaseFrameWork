@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -42,6 +43,7 @@ public abstract class SuperBaseActivity extends AppCompatActivity implements Cus
     public PermissionListener permissionListener;
     public static final int permissionsRequestCode=2103;
     public SuperBaseActivity mActivity;
+    public static final int DEFAULT_STATUS_BAR_H=-1;
     //1080的
     @Override
     public boolean isBaseOnWidth() {
@@ -70,8 +72,8 @@ public abstract class SuperBaseActivity extends AppCompatActivity implements Cus
         StatuBarUtils.setStatusBarTranslucent(this,true);
         onNotSetNetWorkListener();
         initNetWork();
-        //设置沉浸式状态栏
-        setStatusImageBottomFullScreen(true);
+        //设置沉浸式状态栏文字颜色为黑色
+        setStatusBarTextColorBlack(true);
         isMainActivity = setIsExitActivity();
         onNotInitFirst();
         initFirst();
@@ -93,7 +95,53 @@ public abstract class SuperBaseActivity extends AppCompatActivity implements Cus
      * 其他逻辑还没有开始
      */
     public void onNotInitFirst() {
+       setStatusBarHeight(DEFAULT_STATUS_BAR_H);
+    }
 
+
+    /**
+     *  主动设置状态栏进行占位，可重写不设置此状态栏即可全屏
+     */
+    public void setStatusBarHeight(int h) {
+        View view=findViewById(R.id.tv_system_status_bar);
+        if(view!=null){
+            if(h>=0){
+                view.getLayoutParams().height=h;
+            }else{
+                int statusH=ScreenUtils.getStatusHeight(this);
+                if(statusH<=0){
+                    int resourceId = getApplicationContext().getResources().getIdentifier("status_bar_height", "dimen", "android");
+                    if (resourceId > 0) {
+                        statusH = getApplicationContext().getResources().getDimensionPixelSize(resourceId);
+                    }
+                    if(statusH<=0) {
+                        statusH = (int) getResDimens(R.dimen.default_status_h);
+                    }
+                }
+                view.getLayoutParams().height=statusH;
+            }
+        }
+    }
+
+
+    /**
+     * 设置状态栏背景颜色，要设置状态栏文字颜色调用
+     * @param colorRes
+     */
+    public void setStatusBarBackGroundColor(int colorRes){
+        View view=findViewById(R.id.tv_system_status_bar);
+        if (view != null) {
+            if (colorRes != 0) {
+                view.setVisibility(View.VISIBLE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    view.setBackground(new ColorDrawable(colorRes));
+                } else {
+                    view.setBackgroundColor(colorRes);
+                }
+            } else {
+                view.setVisibility(View.GONE);
+            }
+        }
     }
 
 
@@ -104,6 +152,16 @@ public abstract class SuperBaseActivity extends AppCompatActivity implements Cus
      */
     public int getResColor(int res){
         return getResources().getColor(res);
+    }
+
+
+    /**
+     * 获取尺寸资源
+     * @param res
+     * @return
+     */
+    public float getResDimens(int res){
+        return getResources().getDimension(res);
     }
 
 
@@ -285,23 +343,11 @@ public abstract class SuperBaseActivity extends AppCompatActivity implements Cus
 
 
 
-    /**
-     * 设置状态栏背景及字体颜色
-     */
-    public void setStatusStyle(int statusColorRes) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // 设置状态栏底色白色
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            getWindow().setStatusBarColor(statusColorRes);
-            // 设置状态栏字体黑色
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
-    }
 
 
-    //参数传入是否底色为浅色背景，默认为浅色背景
-    public void setStatusImageBottomFullScreen(boolean isLightStatusBar){
+
+    //参数传入是否黑色状态栏文字：false-白色文字  true-黑色文字
+    public void setStatusBarTextColorBlack(boolean isBlackStatusTextColor){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // 设置状态栏底色
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -309,7 +355,7 @@ public abstract class SuperBaseActivity extends AppCompatActivity implements Cus
             getWindow().setStatusBarColor(Color.TRANSPARENT);
             // 设置状态栏字体颜色黑色
             View decor = getWindow().getDecorView();
-            if (isLightStatusBar) {
+            if (isBlackStatusTextColor) {
                 decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             } else {
                 // 设置状态栏底色

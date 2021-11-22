@@ -12,27 +12,9 @@ public class UpdateVersionInfo extends BaseInfo{
      * data : {"version":{"ios":{"id":5,"name":"123","code":"asd","downLink":"http://www.baidu.com","content":"123123","isForce":0,"platformType":2},"android":{"id":2,"name":"V1.0.1","code":"2","downLink":"https://www.baidu.com","content":"安卓更新内容","isForce":0,"platformType":1}}}
      * totalTime : 0
      */
-
-    private int code;
-    private String msg;
     private DataBean data;
     private String totalTime;
 
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
 
     public DataBean getData() {
         return data;

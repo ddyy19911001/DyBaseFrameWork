@@ -12,7 +12,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
 import com.app.mybaseframwork.base.base_model.MyBaseViewModel;
-import com.dy.fastframework.activity.BaseActivity;
 import com.dy.fastframework.fragment.BaseFragment;
 
 

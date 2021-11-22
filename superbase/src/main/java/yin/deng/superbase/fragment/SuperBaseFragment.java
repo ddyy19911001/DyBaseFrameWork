@@ -55,6 +55,15 @@ public abstract class SuperBaseFragment extends Fragment {
 
 
     /**
+     * 获取尺寸资源
+     * @param res
+     * @return
+     */
+    public float getResDimens(int res){
+        return getResources().getDimension(res);
+    }
+
+    /**
      * 获取颜色资源
      * @param res
      * @return

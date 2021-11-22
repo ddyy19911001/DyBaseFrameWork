@@ -19,13 +19,14 @@ import java.util.List;
 import yin.deng.normalutils.utils.ImageLoadUtil;
 import yin.deng.normalutils.utils.LogUtils;
 import yin.deng.superbase.activity.ScreenUtils;
+import yin.deng.superbase.activity.SuperBaseActivity;
 import yin.deng.superbase.fragment.BasePagerAdapter;
 
 /**
  * 专门针对底部有多个按钮的界面设计快速布局的一个activity
  * 在需要开始执行初始化的时候调用initBottomTab();开始初始化整个界面
  */
-public abstract class BaseBottomTabActivity extends BaseActivity {
+public abstract class BaseBottomTabActivity extends SuperBaseActivity {
     public String[] mTabText;
     //未选中icon
     public int[] mNormalIcons;

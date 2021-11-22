@@ -27,13 +27,11 @@ import yin.deng.normalutils.utils.SharedPreferenceUtil;
 
 public abstract class SuperBaseApp extends Application {
     private static SharedPreferenceUtil util;
-    public static SuperBaseApp app;
     public static int requestWaitShowDialogTimeOut=8;//请求发出后几秒显示转圈等待
     @Override
     public void onCreate() {
         super.onCreate();
         CrashHandler.getInstance().init(this);
-        app=this;
         //默认开启打印
         initDebugMode(!closeDebugLog());
         initImgLoadSetting();
