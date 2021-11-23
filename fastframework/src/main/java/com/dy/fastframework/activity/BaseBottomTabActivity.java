@@ -86,7 +86,21 @@ public abstract class BaseBottomTabActivity extends SuperBaseActivity {
         }
     }
 
+    @Override
+    public void onNotInitFirst() {
+        ViseHttp.CONFIG().setOnRequestWatingDialogListener(new HttpGlobalConfig.OnRequestWatingDialogListener() {
+            @Override
+            public void onTimeOverToShowLoading() {
+                showLoadingDialog(getResources().getString(R.string.loading), true);
+            }
 
+            @Override
+            public void onRequestOverLoadingNeedClose() {
+                closeDialog();
+            }
+        });
+        super.onNotInitFirst();
+    }
 
     /**
      * 设置文字的宽度和margin

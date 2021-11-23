@@ -1,5 +1,8 @@
 package com.app.mybaseframwork.base;
 
+
+import androidx.multidex.MultiDex;
+
 import com.app.mybaseframwork.BuildConfig;
 import com.dy.fastframework.application.SuperBaseApp;
 
@@ -9,6 +12,8 @@ public class BaseApp extends SuperBaseApp {
     @Override
     public void onCreate() {
         super.onCreate();
+        // 初始化MultiDex
+        MultiDex.install(this);
         app=this;
     }
 
