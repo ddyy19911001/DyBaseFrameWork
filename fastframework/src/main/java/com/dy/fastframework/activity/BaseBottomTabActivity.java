@@ -1,5 +1,6 @@
 package com.dy.fastframework.activity;
 
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -282,6 +283,7 @@ public abstract class BaseBottomTabActivity extends SuperBaseActivity {
         private float marginBottomInDp;
         private float marginInDp;
         private int weightInDp;
+        private int textSizeInSp;
         private static ConfigBuild configBuild;
         private ConfigBuild(){}
         public static ConfigBuild getInstance(){
@@ -291,6 +293,11 @@ public abstract class BaseBottomTabActivity extends SuperBaseActivity {
 
         public ConfigBuild setWidthInDp(float params){
             this.widthInDp=params;
+            return configBuild;
+        }
+
+        public ConfigBuild setTextSizeInSp(int params){
+            this.textSizeInSp=params;
             return configBuild;
         }
         public ConfigBuild setHeightInDp(float params){
@@ -369,6 +376,9 @@ public abstract class BaseBottomTabActivity extends SuperBaseActivity {
         LinearLayout.LayoutParams ivLayoutParams= (LinearLayout.LayoutParams) holder.ivIcon.getLayoutParams();
         onBuilderImageViewLayoutParams(ivLayoutParams);
         LinearLayout.LayoutParams tvLayoutParams= (LinearLayout.LayoutParams) holder.tvTabName.getLayoutParams();
+        if(getTabTextBuilder()!=null&&getTabTextBuilder().textSizeInSp!=0) {
+            holder.tvTabName.setTextSize(TypedValue.COMPLEX_UNIT_SP, getTabTextBuilder().textSizeInSp);
+        }
         holder.tvTabName.setText(mTabText[i]);
         onBuilderTabNameLayoutParams(tvLayoutParams);
         holder.ivIcon.setLayoutParams(ivLayoutParams);
