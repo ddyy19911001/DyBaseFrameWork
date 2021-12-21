@@ -10,6 +10,8 @@ import com.app.mybaseframwork.databinding.ActivitySplashBinding;
 import yin.deng.normalutils.utils.DownTimer;
 
 public class SplashViewModel extends MyBaseViewModel<ActivitySplashBinding> {
+
+
     public SplashViewModel(Activity activity, ActivitySplashBinding binding) {
         super(activity, binding);
     }

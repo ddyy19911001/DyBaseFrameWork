@@ -6,6 +6,9 @@ import androidx.databinding.ViewDataBinding;
 
 import com.app.mybaseframwork.base.base_model.MyBaseViewModel;
 import com.dy.fastframework.activity.BaseActivity;
+
+import java.lang.reflect.ParameterizedType;
+
 import yin.deng.normalutils.utils.SharedPreferenceUtil;
 
 

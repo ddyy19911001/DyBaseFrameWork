@@ -7,13 +7,13 @@ import com.app.mybaseframwork.base.base_model.MyBaseViewModel;
 import com.app.mybaseframwork.databinding.ActivityMainBinding;
 
 public class MainActivityViewModel extends MyBaseViewModel<ActivityMainBinding> {
-    public MainActivityViewModel(Activity context, ActivityMainBinding binding) {
-        super(context, binding);
+    public MainActivityViewModel(Activity activity,ActivityMainBinding binding) {
+        super(activity,binding);
     }
 
     @Override
     public void init() {
-        setClickListener(binding.tvTitle);
+
     }
 
 
@@ -22,11 +22,7 @@ public class MainActivityViewModel extends MyBaseViewModel<ActivityMainBinding> 
 
     @Override
     public void onViewClick(View v) {
-        switch (v.getId()){
-            case R.id.tv_title:
-                getSystemData();
-                break;
-        }
+
     }
 
 

@@ -2,7 +2,6 @@ package com.app.mybaseframwork.base.base_model;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.Fragment;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -23,6 +22,7 @@ import android.widget.TextView;
 
 
 import androidx.databinding.ViewDataBinding;
+import androidx.fragment.app.Fragment;
 
 import com.app.mybaseframwork.R;
 import com.app.mybaseframwork.base.BaseApp;
@@ -53,9 +53,13 @@ public abstract class MyBaseViewModel<T extends ViewDataBinding> implements OnSt
     public OnStatusChildClickListener onStatusChildClickListener;
 
 
+
     public void setOnStatusChildClickListener(OnStatusChildClickListener onStatusChildClickListener) {
         this.onStatusChildClickListener = onStatusChildClickListener;
     }
+
+
+
 
     public MyBaseViewModel(Activity activity, T binding) {
         this.activity = activity;
