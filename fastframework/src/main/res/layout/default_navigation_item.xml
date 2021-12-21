@@ -17,7 +17,7 @@
         >
     <ImageView
         android:id="@+id/iv_icon"
-        android:src="@drawable/ic_error"
+        android:src="@drawable/ic_default_erro_img"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

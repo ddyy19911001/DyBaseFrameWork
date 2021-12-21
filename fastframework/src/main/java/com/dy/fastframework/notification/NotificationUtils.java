@@ -1,6 +1,5 @@
 package com.dy.fastframework.notification;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -11,8 +10,6 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
-
-import com.dy.fastframework.application.SuperBaseApp;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 

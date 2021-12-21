@@ -1,4 +1,4 @@
-package com.app.mybaseframwork.base;
+package com.runshui.mall.base;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -11,8 +11,16 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
+import com.app.mybaseframwork.base.BaseApp;
+import com.app.mybaseframwork.base.MyRequestUtil;
 import com.app.mybaseframwork.base.base_model.MyBaseViewModel;
 import com.dy.fastframework.fragment.BaseFragment;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import yin.deng.normalutils.utils.SharedPreferenceUtil;
+import yin.deng.superbase.activity.NetErroInfo;
 
 
 
@@ -20,7 +28,7 @@ import com.dy.fastframework.fragment.BaseFragment;
  * 复制此Fragment到自己的基类中
  * @param <T>
  */
-public abstract class MyBaseDataBindingFragment<V extends MyBaseViewModel<T>,T extends ViewDataBinding> extends BaseFragment {
+public abstract class MyBaseDataBindingFragment<V extends MyBaseViewModel<T>,T extends ViewDataBinding> extends BaseFragment{
     public T binding;
     public V viewModel;
 
@@ -43,5 +51,29 @@ public abstract class MyBaseDataBindingFragment<V extends MyBaseViewModel<T>,T e
         mViewInflateFinished = true;
         init();
         return mRootView;
+    }
+
+    @Override
+    public void closeDialog() {
+        super.closeDialog();
+        if(viewModel!=null){
+            viewModel.closeDialog();
+        }
+    }
+
+
+
+
+    public SharedPreferenceUtil getSpUtil(){
+        return BaseApp.getSharedPreferenceUtil();
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void dealWithNetErr(NetErroInfo netErroInfo) {
+        closeDialog();
+        if(viewModel!=null){
+            viewModel.onNetErrShowNormal();
+        }
     }
 }

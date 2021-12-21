@@ -1,7 +1,5 @@
 package com.vise.xsnow.http.request;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.vise.log.ViseLog;
 import com.vise.utils.assist.SSLUtil;
@@ -324,7 +322,7 @@ public abstract class BaseRequest<R extends BaseRequest> {
         if (httpGlobalConfig.getSslSocketFactory() == null) {
             httpGlobalConfig.SSLSocketFactory(SSLUtil.getSslSocketFactory(null, null, null));
         }
-        ViseHttp.getOkHttpBuilder().sslSocketFactory(httpGlobalConfig.getSslSocketFactory());
+//        ViseHttp.getOkHttpBuilder().sslSocketFactory(httpGlobalConfig.getSslSocketFactory());
 
         if (httpGlobalConfig.getConnectionPool() == null) {
             httpGlobalConfig.connectionPool(new ConnectionPool(ViseConfig.DEFAULT_MAX_IDLE_CONNECTIONS,

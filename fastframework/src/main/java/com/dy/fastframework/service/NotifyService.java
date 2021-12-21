@@ -1,7 +1,6 @@
 package com.dy.fastframework.service;
 
 import android.app.ActivityManager;
-import android.app.Application;
 import android.app.Notification;
 import android.app.Service;
 import android.content.ComponentName;

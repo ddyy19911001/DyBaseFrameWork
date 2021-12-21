@@ -1,11 +1,17 @@
 package com.app.mybaseframwork.base;
 
+import android.content.Intent;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
 import com.app.mybaseframwork.base.base_model.MyBaseViewModel;
 import com.dy.fastframework.activity.BaseBottomTabActivity;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import yin.deng.superbase.activity.NetErroInfo;
 
 /**
  * 复制此Activity到自己的基类中
@@ -24,4 +30,26 @@ public abstract class MyBaseBottomTabDataBindingActivity<V extends MyBaseViewMod
     }
 
     protected abstract V createViewModel();
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void dealWithNetErr(NetErroInfo netErroInfo) {
+        closeDialog();
+        if(viewModel!=null){
+            viewModel.onNetErrShowNormal();
+        }
+    }
+
+
+
+
+    @Override
+    public void closeDialog() {
+        super.closeDialog();
+        if(viewModel!=null){
+            viewModel.closeDialog();
+        }
+    }
+
+
 }

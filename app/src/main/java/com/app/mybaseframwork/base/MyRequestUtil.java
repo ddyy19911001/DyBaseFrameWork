@@ -1,16 +1,23 @@
 package com.app.mybaseframwork.base;
 
+import com.app.mybaseframwork.base.BaseInfo;
+import com.dy.fastframework.util.ToastUtil;
 import com.vise.xsnow.common.GsonUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.util.HashMap;
 
-import yin.deng.normalutils.utils.LogUtils;
+import yin.deng.superbase.activity.NetErroInfo;
+import yin.deng.superbase.activity.ServerErrCode;
+import yin.deng.superbase.activity.ServerErrInfo;
 
-public class MyRequestUtil {
-    public static int SUCCESS=10000;
+public class MyRequestUtil implements ServerErrCode {
+    public static int SUCCESS=200;
+    public static int NET_ERR=9332;
     public static boolean needVerifySuccessCode=true;//是否需要验证服务器错误码是否成功
     private static MyRequestUtil myRequestUtil;
     public  static MyRequestUtil getInstance(){
@@ -25,15 +32,21 @@ public class MyRequestUtil {
      */
     public abstract static class OnDataOkListener<T>{
         public abstract void onDataOk(T data);
+        public void onNetErr(int code,String msg){
+
+        }
         //不重写遇到服务器返回错误直接吐司
         public  void onDataFail(int code,String msg){
-            MyToastUtil.show(msg);
+            ToastUtil.show(msg);
         }
     }
 
     //因网络状况引起的报错
     private void onNetErr(int code,String errMsg){
-
+        NetErroInfo erroInfo=new NetErroInfo();
+        erroInfo.setErrCode(code);
+        erroInfo.setErrMsg(errMsg);
+        EventBus.getDefault().post(erroInfo);
     }
 
 
@@ -47,7 +60,10 @@ public class MyRequestUtil {
 
     //对特定的错误码进行单独处理
     private <T extends BaseInfo> void dealWithServerErro(T data) {
-
+        ServerErrInfo serverErrInfo=new ServerErrInfo();
+        serverErrInfo.errCode=data.code;
+        serverErrInfo.errMsg=data.message;
+        EventBus.getDefault().post(serverErrInfo);
     }
 
 
@@ -70,7 +86,7 @@ public class MyRequestUtil {
             if(needDealWithCode(obj)){
                 dealWithServerErro(obj);
             }else {
-                dataOkListener.onDataFail(obj.code, obj.msg);
+                dataOkListener.onDataFail(obj.code, obj.message);
             }
         }
     }
@@ -94,6 +110,7 @@ public class MyRequestUtil {
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
+                        dataOkListener.onNetErr(errCode,errMsg);
                         onNetErr(errCode,errMsg);
                     }
                 });
@@ -119,6 +136,7 @@ public class MyRequestUtil {
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
+                        dataOkListener.onNetErr(errCode,errMsg);
                         onNetErr(errCode,errMsg);
                     }
                 });
@@ -141,6 +159,7 @@ public class MyRequestUtil {
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
+                        dataOkListener.onNetErr(errCode,errMsg);
                         onNetErr(errCode,errMsg);
                     }
                 });
@@ -165,6 +184,7 @@ public class MyRequestUtil {
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
+                        dataOkListener.onNetErr(errCode,errMsg);
                         onNetErr(errCode,errMsg);
                     }
                 });
@@ -189,6 +209,7 @@ public class MyRequestUtil {
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
+                        dataOkListener.onNetErr(errCode,errMsg);
                         onNetErr(errCode,errMsg);
                     }
                 });
@@ -210,6 +231,7 @@ public class MyRequestUtil {
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
+                        dataOkListener.onNetErr(errCode,errMsg);
                         onNetErr(errCode,errMsg);
                     }
                 });
@@ -234,6 +256,7 @@ public class MyRequestUtil {
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
+                        dataOkListener.onNetErr(errCode,errMsg);
                         onNetErr(errCode,errMsg);
                     }
                 });
@@ -258,6 +281,7 @@ public class MyRequestUtil {
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
+                        dataOkListener.onNetErr(errCode,errMsg);
                         onNetErr(errCode,errMsg);
                     }
                 });
@@ -280,6 +304,7 @@ public class MyRequestUtil {
 
                     @Override
                     public void onFail(int errCode, String errMsg) {
+                        dataOkListener.onNetErr(errCode,errMsg);
                         onNetErr(errCode,errMsg);
                     }
                 });

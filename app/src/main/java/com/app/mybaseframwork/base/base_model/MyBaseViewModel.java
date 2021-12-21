@@ -3,6 +3,8 @@ package com.app.mybaseframwork.base.base_model;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -15,18 +17,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 
 import androidx.databinding.ViewDataBinding;
 
 import com.app.mybaseframwork.R;
+import com.app.mybaseframwork.base.BaseApp;
 import com.dy.fastframework.util.ActivityLoadUtil;
+import com.dy.fastframework.view.CommonMsgDialog;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import me.bakumon.statuslayoutmanager.library.OnStatusChildClickListener;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
+import yin.deng.normalutils.utils.MyUtils;
 import yin.deng.normalutils.utils.NoDoubleClickListener;
-import yin.deng.superbase.activity.ToastUtil;
+import yin.deng.normalutils.utils.SharedPreferenceUtil;
+import yin.deng.normalutils.utils.BaseToastUtil;
 
 
 /**
@@ -36,17 +45,21 @@ import yin.deng.superbase.activity.ToastUtil;
 public abstract class MyBaseViewModel<T extends ViewDataBinding> implements OnStatusChildClickListener {
     public Dialog loadingDialog;
     public  Context context;
-    public  StatusLayoutManager loadingManager;
+    public StatusLayoutManager loadingManager;
     public Activity activity;
     public Fragment fragment;
-    private ToastUtil toast;
+    private BaseToastUtil toast;
     public T binding;//用于快速找到对应控件
+    public OnStatusChildClickListener onStatusChildClickListener;
 
-    public MyBaseViewModel(Activity activity,T binding) {
+    public void setOnStatusChildClickListener(OnStatusChildClickListener onStatusChildClickListener) {
+        this.onStatusChildClickListener = onStatusChildClickListener;
+    }
+
+    public MyBaseViewModel(Activity activity, T binding) {
         this.activity = activity;
         this.binding=binding;
         this.context=getContext();
-        onNotInitSetLayout();
         init();
     }
 
@@ -54,10 +67,92 @@ public abstract class MyBaseViewModel<T extends ViewDataBinding> implements OnSt
         this.fragment = fragment;
         this.binding=binding;
         this.context=getContext();
-        onNotInitSetLayout();
         init();
     }
 
+
+
+
+    public void onNetErrShowNormal(){
+       if(activity!=null){
+           SmartRefreshLayout smRf = activity.findViewById(R.id.smRf);
+           if(smRf!=null){
+               smRf.finishRefresh();
+               smRf.finishLoadMore();
+           }
+           if(loadingManager!=null&&loadingManager.isLoadingShow()){
+               loadingManager.showEmptyLayout();
+           }
+       }
+    }
+
+
+    public void copy(String text){
+        //获取剪贴板管理器：
+        ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        // 创建普通字符型ClipData
+        ClipData mClipData = ClipData.newPlainText("Label", text);
+        // 将ClipData内容放到系统剪贴板里。
+        cm.setPrimaryClip(mClipData);
+    }
+
+
+
+    public void showMsgDialog(String msg, String sureBtText, NoDoubleClickListener clickListener){
+        if(!MyUtils.isEmpty(msg)&&msg.length()>300){
+            msg=msg.substring(0,300);
+        }
+        CommonMsgDialog commonMsgDialog=new CommonMsgDialog(getContext());
+        commonMsgDialog.getHolder().tvSure.setText(sureBtText);
+        commonMsgDialog.getHolder().tvContent.setText(msg);
+        commonMsgDialog.getHolder().tvSure.setOnClickListener(new NoDoubleClickListener() {
+            @Override
+            protected void onNoDoubleClick(View v) {
+                commonMsgDialog.dismiss();
+                clickListener.onClick(v);
+            }
+        });
+        commonMsgDialog.show();
+    }
+
+    public void showMsgDialog(String msg){
+        if(!MyUtils.isEmpty(msg)&&msg.length()>300){
+            msg=msg.substring(0,300);
+        }
+        CommonMsgDialog commonMsgDialog=new CommonMsgDialog(getContext());
+        commonMsgDialog.getHolder().tvSure.setText("我知道了");
+        commonMsgDialog.getHolder().tvContent.setText(msg);
+        commonMsgDialog.getHolder().tvSure.setOnClickListener(new NoDoubleClickListener() {
+            @Override
+            protected void onNoDoubleClick(View v) {
+                commonMsgDialog.dismiss();
+            }
+        });
+        commonMsgDialog.show();
+    }
+
+    public void showMsgDialogCannotClose(String msg,String sureBtText,NoDoubleClickListener clickListener){
+        if(!MyUtils.isEmpty(msg)&&msg.length()>300){
+            msg=msg.substring(0,300);
+        }
+        CommonMsgDialog commonMsgDialog=new CommonMsgDialog(getContext());
+        commonMsgDialog.getHolder().tvSure.setText(sureBtText);
+        commonMsgDialog.getHolder().tvContent.setText(msg);
+        commonMsgDialog.getHolder().tvSure.setOnClickListener(new NoDoubleClickListener() {
+            @Override
+            protected void onNoDoubleClick(View v) {
+                commonMsgDialog.dismiss();
+                clickListener.onClick(v);
+            }
+        });
+        commonMsgDialog.setCancelable(false);
+        commonMsgDialog.show();
+    }
+
+
+    public SharedPreferenceUtil getSpUtil(){
+        return BaseApp.getSharedPreferenceUtil();
+    }
 
     public Context getContext(){
         if(activity!=null){
@@ -67,6 +162,43 @@ public abstract class MyBaseViewModel<T extends ViewDataBinding> implements OnSt
             return fragment.getActivity();
         }
         return null;
+    }
+
+
+    public Activity getActivity(){
+        if(activity!=null){
+            return activity;
+        }
+        if(fragment!=null){
+            return fragment.getActivity();
+        }
+        return null;
+    }
+
+
+
+    public void setEmptyText(String emptyText){
+        if(loadingManager!=null){
+            View emptyLayout = loadingManager.getEmptyLayout();
+            if(emptyLayout!=null){
+               TextView textView= emptyLayout.findViewById(R.id.tv_empty_text);
+               if(textView!=null){
+                   textView.setText(emptyText);
+               }
+            }
+        }
+    }
+
+    public void setEmptyImage(int imgRes){
+        if(loadingManager!=null){
+            View emptyLayout = loadingManager.getEmptyLayout();
+            if(emptyLayout!=null){
+                ImageView imageView= emptyLayout.findViewById(R.id.iv_empty);
+                if(imageView!=null){
+                    imageView.setImageResource(imgRes);
+                }
+            }
+        }
     }
 
 
@@ -130,11 +262,9 @@ public abstract class MyBaseViewModel<T extends ViewDataBinding> implements OnSt
         }
     }
 
-    private void onNotInitSetLayout() {
-        if(setLoadingRootView()!=null) {
-            loadingManager = ActivityLoadUtil.getInstance().useDefaultLoadLayout(setLoadingRootView(), this);
-        }
-    }
+
+
+
 
 
     public Intent getIntent(){
@@ -186,8 +316,17 @@ public abstract class MyBaseViewModel<T extends ViewDataBinding> implements OnSt
     }
 
 
-    public View setLoadingRootView(){
-        return null;
+    public void setLoadingRootView(View view){
+        if(view!=null) {
+            loadingManager = ActivityLoadUtil.getInstance().useDefaultLoadLayout(view, this);
+        }
+    }
+
+    public void setLoadingRootView(View view,OnStatusChildClickListener onStatusChildClickListener){
+        if(view!=null) {
+            this.onStatusChildClickListener=onStatusChildClickListener;
+            loadingManager = ActivityLoadUtil.getInstance().useDefaultLoadLayout(view, this);
+        }
     }
 
 
@@ -223,23 +362,31 @@ public abstract class MyBaseViewModel<T extends ViewDataBinding> implements OnSt
     public abstract void onViewClick(View v);
 
 
+
+
     /**
      * 设置加载中布局之后，为空时的点击事件
      * @param view
      */
     @Override
     public void onEmptyChildClick(View view) {
-
+        if(onStatusChildClickListener!=null){
+            onStatusChildClickListener.onEmptyChildClick(view);
+        }
     }
 
     @Override
     public void onErrorChildClick(View view) {
-
+        if(onStatusChildClickListener!=null){
+            onStatusChildClickListener.onEmptyChildClick(view);
+        }
     }
 
     @Override
     public void onCustomerChildClick(View view) {
-
+        if(onStatusChildClickListener!=null){
+            onStatusChildClickListener.onCustomerChildClick(view);
+        }
     }
 
 
@@ -347,7 +494,7 @@ public abstract class MyBaseViewModel<T extends ViewDataBinding> implements OnSt
 
     public void showTs(String msg) {
         if (toast == null) {
-            toast = new ToastUtil(context, msg);
+            toast = new BaseToastUtil(context, msg);
         } else {
             toast.setText(msg);
         }

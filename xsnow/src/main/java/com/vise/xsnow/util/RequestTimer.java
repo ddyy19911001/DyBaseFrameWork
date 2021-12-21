@@ -3,7 +3,6 @@ package com.vise.xsnow.util;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
-import android.util.Log;
 
 public class RequestTimer {
     private long totalTime = -1;

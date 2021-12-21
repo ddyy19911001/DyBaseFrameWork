@@ -22,11 +22,11 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.GestureDetector;
+import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -40,8 +40,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.dy.fastframework.R;
-import com.dy.fastframework.util.OnDoubleClickListener;
-import com.scwang.smartrefresh.layout.api.OnTwoLevelListener;
 
 import yin.deng.normalutils.utils.LogUtils;
 
@@ -86,6 +84,11 @@ public class RecyclerTabLayout extends RecyclerView {
     private int mIndicatorCorner;
     private float mIndicatorRoundOffset=0;
     public  OnTabTwoClickListener onTabTwoClickListener;
+    private float choosedTextSize= 26;
+    private float normalTextSize=18;
+    private boolean isNormalBold=false;
+    private boolean needChangeTextSizeAndBold=false;
+    private boolean isSelectedBold=true;
 
     public void setOnTabTwoClickListener(OnTabTwoClickListener onTabTwoClickListener) {
         this.onTabTwoClickListener = onTabTwoClickListener;
@@ -126,6 +129,16 @@ public class RecyclerTabLayout extends RecyclerView {
                 defStyle, R.style.rtl_RecyclerTabLayout);
         setIndicatorColor(a.getColor(R.styleable
                 .rtl_RecyclerTabLayout_rtl_tabIndicatorColor, 0));
+        needChangeTextSizeAndBold= a.getBoolean(R.styleable
+                .rtl_RecyclerTabLayout_rtl_needChangeTextSizeAndBold, false);
+        isNormalBold= a.getBoolean(R.styleable
+                .rtl_RecyclerTabLayout_rtl_isNormalBold, false);
+        isSelectedBold= a.getBoolean(R.styleable
+                .rtl_RecyclerTabLayout_rtl_isSelectedBold, true);
+        choosedTextSize=a.getDimension(R.styleable
+                .rtl_RecyclerTabLayout_rtl_choosedTextSize, 18);
+        normalTextSize=a.getDimension(R.styleable
+                .rtl_RecyclerTabLayout_rtl_normalTextSize, 18);
         setIndicatorRound(a.getBoolean(R.styleable
                 .rtl_RecyclerTabLayout_rtl_isTabIndicatorRound, false));
         setIndicatorHeight(a.getDimensionPixelSize(R.styleable
@@ -225,7 +238,7 @@ public class RecyclerTabLayout extends RecyclerView {
     }
 
     public void setUpWithViewPager(ViewPager viewPager) {
-        DefaultAdapter adapter = new DefaultAdapter(viewPager,onTabTwoClickListener);
+        DefaultAdapter adapter = new DefaultAdapter(viewPager,needChangeTextSizeAndBold,onTabTwoClickListener,isSelectedBold,choosedTextSize,normalTextSize,isNormalBold);
         adapter.setTabPadding(mTabPaddingStart, mTabPaddingTop, mTabPaddingEnd, mTabPaddingBottom);
         adapter.setTabTextAppearance(mTabTextAppearance);
         adapter.setTabSelectedTextColor(mTabSelectedTextColorSet, mTabSelectedTextColor);
@@ -237,7 +250,7 @@ public class RecyclerTabLayout extends RecyclerView {
     }
 
 
-    public void setUpWithAdapter(RecyclerTabLayout.Adapter<?> adapter) {
+    public void setUpWithAdapter(Adapter<?> adapter) {
         mAdapter = adapter;
         mViewPager = adapter.getViewPager();
         if (mViewPager.getAdapter() == null) {
@@ -541,9 +554,9 @@ public class RecyclerTabLayout extends RecyclerView {
     }
 
     public static class DefaultAdapter
-            extends RecyclerTabLayout.Adapter<DefaultAdapter.ViewHolder> {
+            extends Adapter<DefaultAdapter.ViewHolder> {
 
-        protected static final int MAX_TAB_TEXT_LINES = 2;
+        protected static final int MAX_TAB_TEXT_LINES = 1;
 
         protected int mTabPaddingStart;
         protected int mTabPaddingTop;
@@ -557,14 +570,25 @@ public class RecyclerTabLayout extends RecyclerView {
         private int mTabBackgroundResId;
         private int mTabOnScreenLimit;
         public OnTabTwoClickListener onTabTwoClickListener;
-        public DefaultAdapter(ViewPager viewPager,OnTabTwoClickListener onTabTwoClickListener) {
+        private float choosedTextSize;
+        private float normalTextSize;
+        private boolean isNormalBold;
+        private boolean isSelectedBold;
+        private boolean needChangeTextSizeAndBold;
+
+        public DefaultAdapter(ViewPager viewPager, boolean needChangeTextSizeAndBold, OnTabTwoClickListener onTabTwoClickListener, boolean isSelectedBold,float choosedTextSize, float normalTextSize, boolean isNormalBold) {
             super(viewPager);
             this.onTabTwoClickListener=onTabTwoClickListener;
+            this.needChangeTextSizeAndBold=needChangeTextSizeAndBold;
+            this.choosedTextSize=choosedTextSize;
+            this.normalTextSize=normalTextSize;
+            this.isNormalBold=isNormalBold;
+            this.isSelectedBold=isSelectedBold;
         }
 
         @SuppressWarnings("deprecation")
         @Override
-        public DefaultAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             TabTextView tabTextView = new TabTextView(parent.getContext());
 
             if (mTabSelectedTextColorSet) {
@@ -607,10 +631,20 @@ public class RecyclerTabLayout extends RecyclerView {
         }
 
         @Override
-        public void onBindViewHolder(DefaultAdapter.ViewHolder holder, int position) {
+        public void onBindViewHolder(ViewHolder holder, int position) {
             CharSequence title = getViewPager().getAdapter().getPageTitle(position);
             holder.title.setText(title);
             holder.title.setSelected(getCurrentIndicatorPosition() == position);
+            if(needChangeTextSizeAndBold) {
+                TextPaint tp = holder.title.getPaint();
+                if (holder.title.isSelected()) {
+                    holder.title.setTextSize(TypedValue.COMPLEX_UNIT_PX, choosedTextSize);
+                    tp.setFakeBoldText(isSelectedBold);
+                } else {
+                    holder.title.setTextSize(TypedValue.COMPLEX_UNIT_PX, normalTextSize);
+                    tp.setFakeBoldText(isNormalBold);
+                }
+            }
         }
 
         @Override
@@ -660,63 +694,22 @@ public class RecyclerTabLayout extends RecyclerView {
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             public TextView title;
-            public OnTabTwoClickListener onTabTwoClickListener;
             public ViewHolder(View itemView,OnTabTwoClickListener onTabTwoClickListener) {
                 super(itemView);
                 title = (TextView) itemView;
-                this.onTabTwoClickListener=onTabTwoClickListener;
-                itemView.setOnTouchListener(new OnTouchListener() {
-                    public int count = 0;//点击次数
-                    public long firstClick = 0;//第一次点击时间
-                    public long secondClick = 0;//第二次点击时间
-                    /**
-                     * 两次点击时间间隔，单位毫秒
-                     */
-                    private final int totalTime = 1000;
+                title.setOnClickListener(new OnClickListener() {
                     @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        if (MotionEvent.ACTION_DOWN == event.getAction()) {//按下
-                            count++;
-                            if (1 == count) {
-                                firstClick = System.currentTimeMillis();//记录第一次点击时间
-                                int pos = getAdapterPosition();
-                                if (pos != getCurrentIndicatorPosition()) {
-                                    onSingleClick();
-                                    clear();
-                                }
-                            } else if (2 == count) {
-                                secondClick = System.currentTimeMillis();//记录第二次点击时间
-                                if (secondClick - firstClick < totalTime) {//判断二次点击时间间隔是否在设定的间隔时间之内
-                                    int pos = getAdapterPosition();
-                                    if (pos == getCurrentIndicatorPosition()) {
-                                        onDoubleClick();
-                                    }
-                                    count = 0;
-                                    firstClick = 0;
-                                } else {
-                                    firstClick = secondClick;
-                                    count = 1;
-                                }
-                                secondClick = 0;
-                            }
-                        }
-                        return true;
-                    }
-
-                    public void clear(){
-                        firstClick=0;
-                        secondClick=0;
-                        count=0;
+                    public void onClick(View v) {
+                        onSingleClick();
                     }
                 });
-
             }
 
 
             public void onSingleClick(){
                 int pos = getAdapterPosition();
                 if (pos != NO_POSITION) {
-                    getViewPager().setCurrentItem(pos, true);
+                    getViewPager().setCurrentItem(pos, false);
                 }
             }
 

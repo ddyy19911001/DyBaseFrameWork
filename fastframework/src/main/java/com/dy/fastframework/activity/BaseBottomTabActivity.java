@@ -1,5 +1,6 @@
 package com.dy.fastframework.activity;
 
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,17 +17,16 @@ import com.vise.xsnow.http.config.HttpGlobalConfig;
 import java.util.ArrayList;
 import java.util.List;
 
-import yin.deng.normalutils.utils.ImageLoadUtil;
 import yin.deng.normalutils.utils.LogUtils;
+import yin.deng.normalutils.utils.PicLoadUtil;
 import yin.deng.superbase.activity.ScreenUtils;
-import yin.deng.superbase.activity.SuperBaseActivity;
 import yin.deng.superbase.fragment.BasePagerAdapter;
 
 /**
  * 专门针对底部有多个按钮的界面设计快速布局的一个activity
  * 在需要开始执行初始化的时候调用initBottomTab();开始初始化整个界面
  */
-public abstract class BaseBottomTabActivity extends SuperBaseActivity {
+public abstract class BaseBottomTabActivity extends BaseActivity {
     public String[] mTabText;
     //未选中icon
     public int[] mNormalIcons;
@@ -282,6 +282,7 @@ public abstract class BaseBottomTabActivity extends SuperBaseActivity {
         private float marginBottomInDp;
         private float marginInDp;
         private int weightInDp;
+        private int textSizeInSp;
         private static ConfigBuild configBuild;
         private ConfigBuild(){}
         public static ConfigBuild getInstance(){
@@ -291,6 +292,11 @@ public abstract class BaseBottomTabActivity extends SuperBaseActivity {
 
         public ConfigBuild setWidthInDp(float params){
             this.widthInDp=params;
+            return configBuild;
+        }
+
+        public ConfigBuild setTextSizeInSp(int params){
+            this.textSizeInSp=params;
             return configBuild;
         }
         public ConfigBuild setHeightInDp(float params){
@@ -369,6 +375,9 @@ public abstract class BaseBottomTabActivity extends SuperBaseActivity {
         LinearLayout.LayoutParams ivLayoutParams= (LinearLayout.LayoutParams) holder.ivIcon.getLayoutParams();
         onBuilderImageViewLayoutParams(ivLayoutParams);
         LinearLayout.LayoutParams tvLayoutParams= (LinearLayout.LayoutParams) holder.tvTabName.getLayoutParams();
+        if(getTabTextBuilder()!=null&&getTabTextBuilder().textSizeInSp!=0) {
+            holder.tvTabName.setTextSize(TypedValue.COMPLEX_UNIT_SP, getTabTextBuilder().textSizeInSp);
+        }
         holder.tvTabName.setText(mTabText[i]);
         onBuilderTabNameLayoutParams(tvLayoutParams);
         holder.ivIcon.setLayoutParams(ivLayoutParams);
@@ -376,9 +385,7 @@ public abstract class BaseBottomTabActivity extends SuperBaseActivity {
         holder.llItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(nowSelectedIndex!=i){
-                    setSelectPage(i);
-                }
+                setSelectPage(i);
             }
         });
     }
@@ -402,7 +409,7 @@ public abstract class BaseBottomTabActivity extends SuperBaseActivity {
     public void setSelectPage(int i) {
         clearAllImageAndTextColor();
         nowSelectedIndex=i;
-        mViewPager.setCurrentItem(i);
+        mViewPager.setCurrentItem(i,false);
         if(mSelectIconUrls!=null){
             showImage(bottomTabHolders.get(i).ivIcon,mSelectIconUrls[i]);
             if (selectedTextColor != 0) {
@@ -417,7 +424,7 @@ public abstract class BaseBottomTabActivity extends SuperBaseActivity {
     }
 
     public void showImage(ImageView iv,String url) {
-        ImageLoadUtil.loadImage(iv,url);
+        PicLoadUtil.load(this,url,iv);
     }
 
     /**

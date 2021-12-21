@@ -1,4 +1,4 @@
-package com.app.mybaseframwork.base;
+package com.runshui.mall.base;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +12,12 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
 import com.app.mybaseframwork.base.base_model.MyBaseViewModel;
-import com.dy.fastframework.fragment.BaseFragment;
 import com.dy.fastframework.fragment.BaseTabViewFragment;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import yin.deng.superbase.activity.NetErroInfo;
 
 
 /**
@@ -26,6 +30,8 @@ public abstract class MyBaseTabDataBindingFragment<V extends MyBaseViewModel<T>,
 
 
     protected abstract V createViewModel();
+
+
 
 
     @Nullable
@@ -43,5 +49,22 @@ public abstract class MyBaseTabDataBindingFragment<V extends MyBaseViewModel<T>,
         mViewInflateFinished = true;
         init();
         return mRootView;
+    }
+
+    @Override
+    public void closeDialog() {
+        super.closeDialog();
+        if(viewModel!=null){
+            viewModel.closeDialog();
+        }
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void dealWithNetErr(NetErroInfo netErroInfo) {
+        closeDialog();
+        if(viewModel!=null){
+            viewModel.onNetErrShowNormal();
+        }
     }
 }

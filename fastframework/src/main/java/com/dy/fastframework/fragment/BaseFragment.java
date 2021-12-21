@@ -16,17 +16,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.dy.fastframework.R;
-import com.dy.fastframework.util.ActivityLoadUtil;
-import com.dy.fastframework.util.OnViewOnceClickListener;
 import com.dy.fastframework.view.CommonMsgDialog;
 
 import org.greenrobot.eventbus.EventBus;
 
-import me.bakumon.statuslayoutmanager.library.OnStatusChildClickListener;
-import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
-import yin.deng.normalutils.utils.NoDoubleClickListener;
 import yin.deng.superbase.fragment.SuperBaseFragment;
-import yin.deng.superbase.fragment.ViewPagerSuperBaseFragment;
 
 public abstract class BaseFragment extends SuperBaseFragment{
     private CommonMsgDialog commonMsgDialog;
@@ -46,7 +40,9 @@ public abstract class BaseFragment extends SuperBaseFragment{
     }
 
 
+    public void onRestart(){
 
+    }
 
 
 
@@ -81,12 +77,23 @@ public abstract class BaseFragment extends SuperBaseFragment{
         if (mRootView != null) {
             return mRootView;
         }
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
         bindViewWithId(mRootView);
         mViewInflateFinished = true;
         init();
         return mRootView;
     }
 
+
+    @Override
+    public void onDestroyView() {
+        if(EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().unregister(this);
+        }
+        super.onDestroyView();
+    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

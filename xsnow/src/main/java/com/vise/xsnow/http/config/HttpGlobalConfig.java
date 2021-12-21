@@ -10,7 +10,6 @@ import com.vise.xsnow.http.interceptor.GzipRequestInterceptor;
 import com.vise.xsnow.http.interceptor.OfflineCacheInterceptor;
 import com.vise.xsnow.http.interceptor.OnlineCacheInterceptor;
 import com.vise.xsnow.http.mode.ApiHost;
-import com.vise.xsnow.http.ssl.MySSLSocketFactory;
 import com.vise.xsnow.util.RequestTimer;
 
 import java.io.File;
@@ -34,7 +33,6 @@ import okhttp3.Cache;
 import okhttp3.Call.Factory;
 import okhttp3.ConnectionPool;
 import okhttp3.Interceptor;
-import okhttp3.Request;
 import retrofit2.CallAdapter;
 import retrofit2.Converter;
 

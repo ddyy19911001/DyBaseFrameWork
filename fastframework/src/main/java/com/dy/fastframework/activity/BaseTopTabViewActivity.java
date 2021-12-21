@@ -1,27 +1,21 @@
 package com.dy.fastframework.activity;
 
 
-import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.dy.fastframework.R;
 import com.dy.fastframework.tablayout.RecyclerTabLayout;
-import com.vise.xsnow.http.ViseHttp;
-import com.vise.xsnow.http.config.HttpGlobalConfig;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import yin.deng.superbase.activity.SuperBaseActivity;
 import yin.deng.superbase.fragment.BasePagerAdapter;
 
 
 /**
  * 用RecyclerTabLayout封装的标签布局的基类，可直接继承使用
  */
-public abstract class BaseTopTabViewActivity extends SuperBaseActivity {
+public abstract class BaseTopTabViewActivity extends BaseActivity {
     public RecyclerTabLayout recyclerTabLayout;
     public ViewPager viewpager;
     public List<Fragment> fgs=new ArrayList<>();

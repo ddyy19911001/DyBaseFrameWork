@@ -1,7 +1,5 @@
 package com.app.mybaseframwork;
 
-import android.graphics.Color;
-
 import com.app.mybaseframwork.base.MyBaseDataBindingActivity;
 import com.app.mybaseframwork.databinding.ActivityMainBinding;
 

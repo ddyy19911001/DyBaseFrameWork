@@ -24,7 +24,12 @@
         android:textSize="16sp" />
     <com.cunoraz.gifview.library.GifView
         android:id="@+id/gif_view"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         custom:gif="@drawable/loading" />
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
 </LinearLayout>

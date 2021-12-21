@@ -1,11 +1,11 @@
 package com.dy.fastframework.web;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.DownloadListener;
 import android.webkit.SslErrorHandler;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
@@ -27,13 +28,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
-
 import androidx.core.util.Pair;
 
-import com.dy.fastframework.R;
-
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import yin.deng.normalutils.utils.LogUtils;
@@ -196,6 +193,11 @@ public class MyWebView extends WebView {
         }
     };
 
+    private WebFileChoseListener webFileChoseListener;
+
+    public void setWebFileChoseListener(WebFileChoseListener webFileChoseListener) {
+        this.webFileChoseListener = webFileChoseListener;
+    }
 
     public WebChromeClient chromeClient=new WebChromeClient(){
 
@@ -268,6 +270,16 @@ public class MyWebView extends WebView {
         }
 
 
+        // Android > 5.0 调用这个方法
+        @Override
+        public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
+            if (webFileChoseListener!= null){
+                webFileChoseListener.getFile(filePathCallback);
+            }
+            return true;
+        }
+
+
         @Override
         public void onReceivedTitle(WebView webView, String s) {
             super.onReceivedTitle(webView, s);
@@ -290,6 +302,11 @@ public class MyWebView extends WebView {
             }
         }
     };
+
+
+    public interface WebFileChoseListener {
+        void getFile(ValueCallback valueCallback);
+    }
 
 
     public DownloadListener myDownLoadListener=new DownloadListener() {

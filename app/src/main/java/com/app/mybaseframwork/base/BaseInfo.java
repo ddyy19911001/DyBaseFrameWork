@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class BaseInfo implements Serializable {
     int code;
-    String msg;
+    String message;
 
     public int getCode() {
         return code;
@@ -15,10 +15,10 @@ public class BaseInfo implements Serializable {
     }
 
     public String getMsg() {
-        return msg;
+        return message;
     }
 
     public void setMsg(String msg) {
-        this.msg = msg;
+        this.message = msg;
     }
 }

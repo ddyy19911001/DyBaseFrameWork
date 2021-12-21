@@ -1,7 +1,8 @@
 package com.vise.xsnow.http.interceptor;
 
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 import com.vise.log.ViseLog;
 import com.vise.xsnow.common.ViseConfig;

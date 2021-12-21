@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import yin.deng.superbase.activity.ToastUtil;
+import yin.deng.normalutils.utils.BaseToastUtil;
 
 
 /**
@@ -25,7 +25,7 @@ public abstract class SuperBaseFragment extends Fragment {
 
     // 表示找控件完成, 给控件们设置数据不会报空指针了
     public boolean mViewInflateFinished;
-    public ToastUtil toast;
+    public BaseToastUtil toast;
     public boolean isThisVisible;
 
     @Nullable
@@ -157,7 +157,7 @@ public abstract class SuperBaseFragment extends Fragment {
 
     public void showTs(String msg) {
         if (toast == null) {
-            toast = new ToastUtil(getActivity(),msg);
+            toast = new BaseToastUtil(getActivity(),msg);
         } else {
             toast.setText(msg);
         }

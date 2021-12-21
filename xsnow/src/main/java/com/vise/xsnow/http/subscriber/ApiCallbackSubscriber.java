@@ -2,9 +2,6 @@ package com.vise.xsnow.http.subscriber;
 
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.vise.xsnow.common.GsonUtil;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.callback.ACallback;
 import com.vise.xsnow.http.config.HttpGlobalConfig;

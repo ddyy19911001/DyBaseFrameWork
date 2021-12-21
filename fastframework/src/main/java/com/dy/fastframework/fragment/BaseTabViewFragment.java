@@ -9,7 +9,6 @@ import com.dy.fastframework.tablayout.RecyclerTabLayout;
 import java.util.List;
 
 import yin.deng.superbase.fragment.BasePagerAdapter;
-import yin.deng.superbase.fragment.ViewPagerSuperBaseFragment;
 /**
  * 用RecyclerTabLayout封装的标签布局的基类，可直接继承使用
  */

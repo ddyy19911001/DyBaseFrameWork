@@ -81,10 +81,10 @@ public class MyUtils {
         return s;
     }
 
-    static ToastUtil tUtil;
+    static BaseToastUtil tUtil;
     public static void showTs(Context context,String msg) {
         if(tUtil==null){
-            tUtil=new ToastUtil(context,msg);
+            tUtil=new BaseToastUtil(context,msg);
         }
         tUtil.setText(msg);
         tUtil.show();

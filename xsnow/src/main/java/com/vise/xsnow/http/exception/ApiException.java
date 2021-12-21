@@ -4,7 +4,6 @@ import android.net.ParseException;
 import android.util.Log;
 
 import com.google.gson.JsonParseException;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.vise.xsnow.R;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.mode.ApiCode;

@@ -1,15 +1,7 @@
 package com.dy.fastframework.view;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -20,13 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
-
 import com.dy.fastframework.R;
 
-import java.text.NumberFormat;
-
-import yin.deng.normalutils.utils.NoDoubleClickListener;
 import yin.deng.normalutils.utils.ScreenUtils;
 
 public class CommonProgressDialog extends Dialog {

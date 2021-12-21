@@ -1,6 +1,8 @@
 package yin.deng.superbase.activity;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -22,11 +24,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import me.jessyan.autosize.internal.CustomAdapt;
+import yin.deng.normalutils.utils.MyUtils;
+import yin.deng.normalutils.utils.NoDoubleClickListener;
+import yin.deng.normalutils.utils.BaseToastUtil;
 import yin.deng.superbase.R;
 import yin.deng.superbase.activity.permission.PermissionListener;
 
@@ -39,7 +46,7 @@ public abstract class SuperBaseActivity extends AppCompatActivity implements Cus
     public Dialog loadingDialog;
     public boolean isMainActivity;
     public NetStateReceiver netChangeReceiver;
-    public ToastUtil toast;
+    public BaseToastUtil toast;
     public PermissionListener permissionListener;
     public static final int permissionsRequestCode=2103;
     public SuperBaseActivity mActivity;
@@ -55,10 +62,28 @@ public abstract class SuperBaseActivity extends AppCompatActivity implements Cus
         return 415;
     }
 
+
+    /**
+     * 退出app
+     */
+    public void exitAppNow(){
+        AppActivityListManager.getScreenManager().removeAllActivity();
+        //创建ACTION_MAIN
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Context content = this;
+        //启动ACTION_MAIN
+        content.startActivity(intent);
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         onNotcreate();
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         mActivity=this;
         onNotSetContentView();
         setLayoutVoid(setLayout());
@@ -67,6 +92,7 @@ public abstract class SuperBaseActivity extends AppCompatActivity implements Cus
         AppActivityListManager.getScreenManager().addActivity(this);
         onNotBindView();
         bindViewWithId();
+        onViewBindOver(savedInstanceState);
         onNotSetStatusBar();
         //去除小米手机白色状态栏
         StatuBarUtils.setStatusBarTranslucent(this,true);
@@ -78,6 +104,10 @@ public abstract class SuperBaseActivity extends AppCompatActivity implements Cus
         onNotInitFirst();
         initFirst();
         onInitFirstOver();
+    }
+
+    public void onViewBindOver(Bundle savedInstanceState) {
+
     }
 
     public void setLayoutVoid(int setLayout) {
@@ -96,6 +126,32 @@ public abstract class SuperBaseActivity extends AppCompatActivity implements Cus
      */
     public void onNotInitFirst() {
        setStatusBarHeight(DEFAULT_STATUS_BAR_H);
+       setBackClickListener();
+       setActivityTitle(null);
+    }
+
+
+    /**
+     * 重写此方法设置标题
+     * @param title
+     */
+    public void setActivityTitle(String title) {
+        TextView titleView=findViewById(R.id.tv_activity_title);
+        if(titleView!=null&& !MyUtils.isEmpty(title)){
+            titleView.setText(title);
+        }
+    }
+
+    private void setBackClickListener() {
+        View view=findViewById(R.id.iv_title_back);
+        if(view!=null){
+            view.setOnClickListener(new NoDoubleClickListener() {
+                @Override
+                protected void onNoDoubleClick(View v) {
+                    finish();
+                }
+            });
+        }
     }
 
 
@@ -391,7 +447,7 @@ public abstract class SuperBaseActivity extends AppCompatActivity implements Cus
 
     public void showTs(String msg) {
         if (toast == null) {
-            toast = new ToastUtil(this, msg);
+            toast = new BaseToastUtil(this, msg);
         } else {
             toast.setText(msg);
         }
@@ -421,6 +477,9 @@ public abstract class SuperBaseActivity extends AppCompatActivity implements Cus
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if(EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().unregister(this);
+        }
         unregisterReceiver(netChangeReceiver);
     }
 

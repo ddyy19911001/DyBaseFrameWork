@@ -4,20 +4,14 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DecodeFormat;
-import com.bumptech.glide.request.RequestOptions;
-import com.dy.fastframework.R;
-import com.ypx.imagepicker.ImagePicker;
 import com.ypx.imagepicker.adapter.PickerItemAdapter;
 import com.ypx.imagepicker.bean.ImageItem;
 import com.ypx.imagepicker.bean.selectconfig.BaseSelectConfig;
@@ -35,12 +29,10 @@ import com.ypx.imagepicker.views.wx.WXFolderItemView;
 import com.ypx.imagepicker.views.wx.WXItemView;
 
 import java.io.Serializable;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-import yin.deng.normalutils.utils.ImageLoadUtil;
+import yin.deng.normalutils.utils.PicLoadUtil;
 import yin.deng.superbase.activity.LogUtils;
-import yin.deng.superbase.activity.SuperBaseActivity;
 
 public class WeiChartPresenter implements IPickerPresenter, Serializable {
     Class targetActivity;
@@ -52,12 +44,10 @@ public class WeiChartPresenter implements IPickerPresenter, Serializable {
 
     @Override
     public void displayImage(View view, ImageItem item, int size, boolean isThumbnail) {
-        ImageLoadUtil.initOptions(view.getContext());
         if (isThumbnail) {
-            ImageLoadUtil.loadImageThumb((ImageView) view, item.path);
+            PicLoadUtil.loadThumb(view.getContext(), item.path,(ImageView) view);
         } else {
-            Glide.with(view.getContext()).load(item.path).apply(new RequestOptions()
-                    .format(DecodeFormat.PREFER_ARGB_8888)).into((ImageView) view);
+            PicLoadUtil.load(view.getContext(), item.path,(ImageView) view);
         }
     }
 
@@ -67,7 +57,7 @@ public class WeiChartPresenter implements IPickerPresenter, Serializable {
         //设置是否显示标题栏
         uiConfig.setShowStatusBar(true);
         //设置标题栏颜色
-        uiConfig.setStatusBarColor(Color.parseColor("#F5F5F5"));
+        uiConfig.setStatusBarColor(Color.parseColor("#F6F9FC"));
         //设置选择器背景
         uiConfig.setPickerBackgroundColor(Color.BLACK);
         //设置单图剪裁背景色

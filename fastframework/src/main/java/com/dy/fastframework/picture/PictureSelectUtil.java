@@ -4,15 +4,10 @@ import android.app.Activity;
 import android.graphics.Color;
 
 import com.ypx.imagepicker.ImagePicker;
-import com.ypx.imagepicker.bean.ImageItem;
 import com.ypx.imagepicker.bean.MimeType;
 import com.ypx.imagepicker.bean.SelectMode;
 import com.ypx.imagepicker.bean.selectconfig.CropConfig;
 import com.ypx.imagepicker.data.OnImagePickCompleteListener;
-
-import java.util.ArrayList;
-
-import yin.deng.superbase.activity.SuperBaseActivity;
 
 public class PictureSelectUtil {
     public static void chooseNinePic(Activity activity,int clums,OnImagePickCompleteListener onImagePickCompleteListener){

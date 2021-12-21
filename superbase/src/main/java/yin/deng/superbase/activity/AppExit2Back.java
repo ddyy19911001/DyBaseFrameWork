@@ -7,6 +7,7 @@ import android.content.Intent;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import yin.deng.normalutils.utils.BaseToastUtil;
 import yin.deng.superbase.R;
 
 /**
@@ -34,7 +35,7 @@ public class AppExit2Back {
 	    if (isExit == false) {
 	        isExit = true;
 	        //信息提示
-			new ToastUtil(context,context.getResources().getString(R.string.exit_twice_tips)).show();
+			new BaseToastUtil(context,context.getResources().getString(R.string.exit_twice_tips)).show();
 	        //创建定时器
 	        tExit = new Timer();
 	        //如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
