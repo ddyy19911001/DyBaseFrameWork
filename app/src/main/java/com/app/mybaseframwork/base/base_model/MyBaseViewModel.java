@@ -52,6 +52,7 @@ public abstract class MyBaseViewModel<T extends ViewDataBinding> implements OnSt
     public T binding;//用于快速找到对应控件
     public OnStatusChildClickListener onStatusChildClickListener;
 
+
     public void setOnStatusChildClickListener(OnStatusChildClickListener onStatusChildClickListener) {
         this.onStatusChildClickListener = onStatusChildClickListener;
     }
@@ -99,9 +100,6 @@ public abstract class MyBaseViewModel<T extends ViewDataBinding> implements OnSt
 
 
     public void showMsgDialog(String msg, String sureBtText, NoDoubleClickListener clickListener){
-        if(!MyUtils.isEmpty(msg)&&msg.length()>300){
-            msg=msg.substring(0,300);
-        }
         CommonMsgDialog commonMsgDialog=new CommonMsgDialog(getContext());
         commonMsgDialog.getHolder().tvSure.setText(sureBtText);
         commonMsgDialog.getHolder().tvContent.setText(msg);
@@ -116,9 +114,6 @@ public abstract class MyBaseViewModel<T extends ViewDataBinding> implements OnSt
     }
 
     public void showMsgDialog(String msg){
-        if(!MyUtils.isEmpty(msg)&&msg.length()>300){
-            msg=msg.substring(0,300);
-        }
         CommonMsgDialog commonMsgDialog=new CommonMsgDialog(getContext());
         commonMsgDialog.getHolder().tvSure.setText("我知道了");
         commonMsgDialog.getHolder().tvContent.setText(msg);
@@ -132,9 +127,6 @@ public abstract class MyBaseViewModel<T extends ViewDataBinding> implements OnSt
     }
 
     public void showMsgDialogCannotClose(String msg,String sureBtText,NoDoubleClickListener clickListener){
-        if(!MyUtils.isEmpty(msg)&&msg.length()>300){
-            msg=msg.substring(0,300);
-        }
         CommonMsgDialog commonMsgDialog=new CommonMsgDialog(getContext());
         commonMsgDialog.getHolder().tvSure.setText(sureBtText);
         commonMsgDialog.getHolder().tvContent.setText(msg);
