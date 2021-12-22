@@ -1,13 +1,11 @@
 package com.app.mybaseframwork.base;
 
-import android.content.Intent;
-
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
 import com.app.mybaseframwork.base.base_model.MyBaseViewModel;
 import com.dy.fastframework.activity.BaseBottomTabActivity;
-import com.dy.fastframework.util.NetErroInfo;
+import com.dy.fastframework.util.bean.NetErroInfo;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;

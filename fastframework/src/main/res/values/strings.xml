@@ -6,7 +6,12 @@
     <string name="system_msg">系统消息</string>
     <string name="cancel">取消</string>
     <string name="sure">确定</string>
-    <string name="no_read_write_permission">无法获取到应用读取/写入内部存储相关权限，下载失败！</string>
+    <string name="no_read_write_permission">获取读取/写入存储相关权限失败</string>
+    <string name="no_read_write_permission_and_open">获取读取/写入存储相关权限失败,请手动开启对应权限</string>
+    <string name="no_location_permission_and_open">获取定位/位置信息相关权限失败,请手动开启对应权限</string>
+    <string name="no_location_permission">获取定位/位置信息相关权限失败</string>
+    <string name="no_camera_and_open">获取拍照/相机对应权限失败,请手动开启对应权限</string>
+    <string name="no_camera">获取拍照/相机对应权限失败</string>
     <string name="down_erro">下载失败：</string>
     <string name="unknown_erro">未知错误</string>
     <string name="find_new_version">发现新版本</string>

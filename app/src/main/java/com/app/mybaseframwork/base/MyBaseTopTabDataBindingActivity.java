@@ -5,7 +5,7 @@ import androidx.databinding.ViewDataBinding;
 
 import com.app.mybaseframwork.base.base_model.MyBaseViewModel;
 import com.dy.fastframework.activity.BaseTopTabViewActivity;
-import com.dy.fastframework.util.NetErroInfo;
+import com.dy.fastframework.util.bean.NetErroInfo;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;

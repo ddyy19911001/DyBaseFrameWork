@@ -1,9 +1,8 @@
 package com.app.mybaseframwork.base;
 
-import com.app.mybaseframwork.base.BaseInfo;
-import com.dy.fastframework.util.NetErroInfo;
-import com.dy.fastframework.util.ServerErrCode;
-import com.dy.fastframework.util.ServerErrInfo;
+import com.dy.fastframework.util.bean.NetErroInfo;
+import com.dy.fastframework.util.bean.ServerErrCode;
+import com.dy.fastframework.util.bean.ServerErrInfo;
 import com.dy.fastframework.util.ToastUtil;
 import com.vise.xsnow.common.GsonUtil;
 import com.vise.xsnow.http.ViseHttp;

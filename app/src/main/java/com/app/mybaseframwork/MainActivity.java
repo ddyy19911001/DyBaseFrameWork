@@ -1,8 +1,23 @@
 package com.app.mybaseframwork;
 
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.TextView;
+
 import com.app.mybaseframwork.base.MyBaseDataBindingActivity;
 import com.app.mybaseframwork.base.base_model.CommonViewModel;
 import com.app.mybaseframwork.databinding.ActivityMainBinding;
+import com.dy.fastframework.util.NoDoubleClickListener;
+import com.dy.fastframework.util.ScreenUtils;
+import com.dy.fastframework.view.DialogFragmentBase;
+import com.dy.fastframework.view.PopWindowUtils;
+import com.hjq.permissions.OnPermissionCallback;
+
+import java.util.List;
 
 /**
  * ViewModel继承基类ViewModel,实现模型和Activity，fragment分离
@@ -16,6 +31,41 @@ public class MainActivity extends MyBaseDataBindingActivity<CommonViewModel<Acti
     @Override
     public void initFirst() {
         viewModel.binding.tvContent.setText("我是修改的文字");
+        viewModel.binding.tvContent.setOnClickListener(new NoDoubleClickListener() {
+            @Override
+            protected void onNoDoubleClick(View v) {
+                requestStoragePermission(new OnPermissionCallback() {
+                    @Override
+                    public void onGranted(List<String> permissions, boolean all) {
+                        showTs("获取存储相关权限成功");
+                    }
+                });
+            }
+        });
+    }
+
+
+    String nowStr;
+    int count;
+    private void showPop2(){
+        nowStr="我是本次的数据"+count;
+        Bundle bundle=new Bundle();
+        bundle.putString("data",nowStr);
+        TestDialogFragment testDialogFragment=new TestDialogFragment(bundle);
+        testDialogFragment.show(getSupportFragmentManager(),"show");
+        count++;
+    }
+
+    private void showPop1() {
+        PopWindowUtils utils=new PopWindowUtils(this) {
+            @Override
+            public void createViewHolder(View contentView) {
+               TextView tvTitle= contentView.findViewById(R.id.tv_title);
+               tvTitle.setText("现在改变了数据");
+            }
+        };
+        utils.createPopupLayout(R.layout.dialog_test, ScreenUtils.dipTopx(this,300), ViewGroup.LayoutParams.WRAP_CONTENT);
+        utils.showCenter(binding.tvContent);
     }
 
 

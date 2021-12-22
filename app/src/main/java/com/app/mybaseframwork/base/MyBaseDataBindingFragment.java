@@ -13,7 +13,7 @@ import androidx.databinding.ViewDataBinding;
 
 import com.app.mybaseframwork.base.base_model.MyBaseViewModel;
 import com.dy.fastframework.fragment.BaseFragment;
-import com.dy.fastframework.util.NetErroInfo;
+import com.dy.fastframework.util.bean.NetErroInfo;
 import com.dy.fastframework.util.SharedPreferenceUtil;
 
 import org.greenrobot.eventbus.Subscribe;

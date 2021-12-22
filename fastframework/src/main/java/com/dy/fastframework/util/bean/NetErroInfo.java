@@ -1,4 +1,4 @@
-package com.dy.fastframework.util;
+package com.dy.fastframework.util.bean;
 
 import java.io.Serializable;
 

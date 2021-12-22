@@ -1,15 +1,12 @@
 package com.runshui.mall.base;
 
-import android.content.Intent;
-
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
 import com.app.mybaseframwork.base.BaseApp;
-import com.app.mybaseframwork.base.MyRequestUtil;
 import com.app.mybaseframwork.base.base_model.MyBaseViewModel;
 import com.dy.fastframework.activity.BaseWebViewActivity;
-import com.dy.fastframework.util.NetErroInfo;
+import com.dy.fastframework.util.bean.NetErroInfo;
 import com.dy.fastframework.util.SharedPreferenceUtil;
 
 import org.greenrobot.eventbus.Subscribe;

@@ -2,6 +2,7 @@ package com.dy.fastframework.view;
 
 import android.app.Activity;
 import android.os.Build;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,13 +14,14 @@ import android.widget.PopupWindow;
 /**
  * Created by Administrator on 2017/10/12.
  * deng yin
+ * 先创建，在createLayout，最后show
  */
-public class PopuwindowUtils {
+public abstract class PopWindowUtils {
     private Activity mContext;
     private PopupWindow popupWindow;
     private View contentView;
 
-    public PopuwindowUtils(Activity mContext) {
+    public PopWindowUtils(Activity mContext) {
         this.mContext = mContext;
     }
 
@@ -28,12 +30,25 @@ public class PopuwindowUtils {
         return contentView;
     }
 
-    public void createPopupLayout(int layoutRes) {
+    public void createPopupLayout(int layoutRes,int width,int height){
+        createPopupLayout(layoutRes,width,height,true);
+    }
+
+    public void createPopupLayout(int layoutRes,int height){
+        createPopupLayout(layoutRes,ViewGroup.LayoutParams.MATCH_PARENT,height,true);
+    }
+
+    public void createPopupLayout(int layoutRes){
+        createPopupLayout(layoutRes,ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT,true);
+    }
+
+    public void createPopupLayout(int layoutRes,int width,int height,boolean isHalfBlack) {
         // 一个自定义的布局，作为显示的内容
         contentView = LayoutInflater.from(mContext).inflate(
                 layoutRes, null);
+        createViewHolder(contentView);
         popupWindow = new PopupWindow(contentView,
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+                width, height, true);
         popupWindow.setTouchable(true);
         //在PopupWindow里面就加上下面代码，让键盘弹出时，不会挡住pop窗口。
         popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
@@ -62,12 +77,31 @@ public class PopuwindowUtils {
                 dismissPop();
             }
         });
-        backgroundAlpha(0.5f);
+        if(isHalfBlack) {
+            backgroundAlpha(0.5f);
+        }else{
+            backgroundAlpha(1f);
+        }
     }
 
-    public void showPopWindow(View view,int xOffset,int yOffset,int Gravity){
+
+    public abstract void createViewHolder(View contentView);
+
+    public void showDropDown(View view,int xOffset,int yOffset,int Gravity){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT&&popupWindow!=null) {
             popupWindow.showAsDropDown(view, xOffset, yOffset, Gravity);
+        }
+    }
+
+    public void showBottom(View rootView){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT&&popupWindow!=null) {
+            popupWindow.showAtLocation(rootView, Gravity.BOTTOM, 0, 0);
+        }
+    }
+
+    public void showCenter(View rootView){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT&&popupWindow!=null) {
+            popupWindow.showAtLocation(rootView, Gravity.CENTER, 0, 0);
         }
     }
 
