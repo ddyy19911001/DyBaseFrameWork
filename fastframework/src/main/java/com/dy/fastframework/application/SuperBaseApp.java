@@ -2,6 +2,8 @@ package com.dy.fastframework.application;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 
 import com.dy.fastframework.R;
 import com.dy.fastframework.erro.CrashHandler;
@@ -17,7 +19,6 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.viewimpl.MyFooterView;
 import com.scwang.smartrefresh.layout.viewimpl.MyHeaderView;
 import com.vise.xsnow.http.ViseHttp;
-
 
 
 public abstract class SuperBaseApp extends Application {
@@ -36,6 +37,9 @@ public abstract class SuperBaseApp extends Application {
         initViseHttp();
         util=new SharedPreferenceUtil(this, getApplicationInfo().packageName);
     }
+
+
+
 
     public static void setRequestWaitShowDialogTimeOut(int requestWaitShowDialogTimeOut) {
         SuperBaseApp.requestWaitShowDialogTimeOut = requestWaitShowDialogTimeOut;

@@ -1,23 +1,19 @@
 package com.app.mybaseframwork;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.app.mybaseframwork.base.MyBaseDataBindingActivity;
 import com.app.mybaseframwork.base.base_model.CommonViewModel;
 import com.app.mybaseframwork.databinding.ActivityMainBinding;
+import com.app.mybaseframwork.test.CanScrollTopVpActivity;
 import com.dy.fastframework.util.NoDoubleClickListener;
 import com.dy.fastframework.util.ScreenUtils;
-import com.dy.fastframework.view.DialogFragmentBase;
 import com.dy.fastframework.view.PopWindowUtils;
-import com.hjq.permissions.OnPermissionCallback;
 
-import java.util.List;
 
 /**
  * ViewModel继承基类ViewModel,实现模型和Activity，fragment分离
@@ -34,12 +30,7 @@ public class MainActivity extends MyBaseDataBindingActivity<CommonViewModel<Acti
         viewModel.binding.tvContent.setOnClickListener(new NoDoubleClickListener() {
             @Override
             protected void onNoDoubleClick(View v) {
-                requestStoragePermission(new OnPermissionCallback() {
-                    @Override
-                    public void onGranted(List<String> permissions, boolean all) {
-                        showTs("获取存储相关权限成功");
-                    }
-                });
+                startActivity(new Intent(MainActivity.this, CanScrollTopVpActivity.class));
             }
         });
     }
