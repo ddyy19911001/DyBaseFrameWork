@@ -7,11 +7,11 @@ import androidx.databinding.ViewDataBinding;
 
 import com.app.mybaseframwork.base.base_model.MyBaseViewModel;
 import com.dy.fastframework.activity.BaseBottomTabActivity;
+import com.dy.fastframework.util.NetErroInfo;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import yin.deng.superbase.activity.NetErroInfo;
 
 /**
  * 复制此Activity到自己的基类中

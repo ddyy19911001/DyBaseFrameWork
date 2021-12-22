@@ -13,11 +13,11 @@ import androidx.databinding.ViewDataBinding;
 
 import com.app.mybaseframwork.base.base_model.MyBaseViewModel;
 import com.dy.fastframework.fragment.BaseTabViewFragment;
+import com.dy.fastframework.util.NetErroInfo;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import yin.deng.superbase.activity.NetErroInfo;
 
 
 /**

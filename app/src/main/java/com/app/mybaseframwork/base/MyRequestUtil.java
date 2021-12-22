@@ -1,6 +1,9 @@
 package com.app.mybaseframwork.base;
 
 import com.app.mybaseframwork.base.BaseInfo;
+import com.dy.fastframework.util.NetErroInfo;
+import com.dy.fastframework.util.ServerErrCode;
+import com.dy.fastframework.util.ServerErrInfo;
 import com.dy.fastframework.util.ToastUtil;
 import com.vise.xsnow.common.GsonUtil;
 import com.vise.xsnow.http.ViseHttp;
@@ -11,9 +14,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.File;
 import java.util.HashMap;
 
-import yin.deng.superbase.activity.NetErroInfo;
-import yin.deng.superbase.activity.ServerErrCode;
-import yin.deng.superbase.activity.ServerErrInfo;
 
 public class MyRequestUtil implements ServerErrCode {
     public static int SUCCESS=200;

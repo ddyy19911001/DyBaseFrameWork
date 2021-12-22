@@ -20,8 +20,6 @@ import com.dy.fastframework.view.CommonMsgDialog;
 
 import org.greenrobot.eventbus.EventBus;
 
-import yin.deng.superbase.fragment.SuperBaseFragment;
-
 public abstract class BaseFragment extends SuperBaseFragment{
     private CommonMsgDialog commonMsgDialog;
     private boolean isFirstGetData=true;

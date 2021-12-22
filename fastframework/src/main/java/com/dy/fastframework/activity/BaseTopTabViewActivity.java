@@ -4,12 +4,12 @@ package com.dy.fastframework.activity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.dy.fastframework.fragment.BasePagerAdapter;
 import com.dy.fastframework.tablayout.RecyclerTabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import yin.deng.superbase.fragment.BasePagerAdapter;
 
 
 /**

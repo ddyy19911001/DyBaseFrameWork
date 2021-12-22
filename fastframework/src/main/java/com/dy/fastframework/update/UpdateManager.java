@@ -11,6 +11,7 @@ import android.view.View;
 import androidx.core.content.FileProvider;
 
 import com.dy.fastframework.R;
+import com.dy.fastframework.activity.SuperBaseActivity;
 import com.dy.fastframework.downloader.Error;
 import com.dy.fastframework.downloader.OnDownloadListener;
 import com.dy.fastframework.downloader.OnProgressListener;
@@ -18,17 +19,17 @@ import com.dy.fastframework.downloader.OnStartOrResumeListener;
 import com.dy.fastframework.downloader.PRDownloader;
 import com.dy.fastframework.downloader.Progress;
 import com.dy.fastframework.downloader.utils.Utils;
+import com.dy.fastframework.util.LogUtils;
+import com.dy.fastframework.util.MyUtils;
+import com.dy.fastframework.util.NoDoubleClickListener;
 import com.dy.fastframework.view.CommonMsgDialog;
 import com.dy.fastframework.view.CommonProgressDialog;
+import com.hjq.permissions.OnPermissionCallback;
+import com.hjq.permissions.XXPermissions;
 
 import java.io.File;
 import java.util.List;
 
-import yin.deng.normalutils.utils.LogUtils;
-import yin.deng.normalutils.utils.MyUtils;
-import yin.deng.normalutils.utils.NoDoubleClickListener;
-import yin.deng.superbase.activity.SuperBaseActivity;
-import yin.deng.superbase.activity.permission.PermissionListener;
 
 
 /**
@@ -66,23 +67,20 @@ public class UpdateManager {
     public void requestPermissionAndDownLoadStart(final UpdateInfo updateInfo, final SuperBaseActivity activity, final int progressLogo) {
         dirPath = Utils.getRootDirPath(activity)+ File.separator;
         String[]permissions={Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        activity.requestRunTimePermission(permissions, new PermissionListener() {
-            @Override
-            public void onGranted() {
-                LogUtils.i("权限获取成功");
-                downLoadStart(updateInfo,activity);
-            }
+        XXPermissions.with(activity)
+                .permission(permissions)
+                .request(new OnPermissionCallback() {
+                    @Override
+                    public void onGranted(List<String> permissions, boolean all) {
+                        LogUtils.i("权限获取成功");
+                        downLoadStart(updateInfo,activity);
+                    }
 
-            @Override
-            public void onGranted(List<String> grantedPermission) {
-
-            }
-
-            @Override
-            public void onDenied(List<String> deniedPermission) {
-                showNomalMsg(activity,activity.getResources().getString(R.string.no_read_write_permission));
-            }
-        });
+                    @Override
+                    public void onDenied(List<String> permissions, boolean never) {
+                        showNomalMsg(activity,activity.getResources().getString(R.string.no_read_write_permission));
+                    }
+                });
     }
 
 
@@ -97,10 +95,12 @@ public class UpdateManager {
      * 请求权限并开始下载
      * @param activity
      */
-    public void requestPermissionAndDownLoadStart(final SuperBaseActivity activity,PermissionListener permissionListener) {
+    public void requestPermissionAndDownLoadStart(final SuperBaseActivity activity,OnPermissionCallback permissionListener) {
         dirPath = Utils.getRootDirPath(activity)+ File.separator;
         String[]permissions={Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        activity.requestRunTimePermission(permissions,permissionListener);
+        XXPermissions.with(activity)
+                .permission(permissions)
+                .request(permissionListener);
     }
 
 

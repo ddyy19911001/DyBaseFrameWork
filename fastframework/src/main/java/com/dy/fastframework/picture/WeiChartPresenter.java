@@ -11,7 +11,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.bumptech.glide.Glide;
+import com.dy.fastframework.util.LogUtils;
+import com.dy.fastframework.util.PicLoadUtil;
 import com.ypx.imagepicker.adapter.PickerItemAdapter;
 import com.ypx.imagepicker.bean.ImageItem;
 import com.ypx.imagepicker.bean.selectconfig.BaseSelectConfig;
@@ -31,8 +32,6 @@ import com.ypx.imagepicker.views.wx.WXItemView;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import yin.deng.normalutils.utils.PicLoadUtil;
-import yin.deng.superbase.activity.LogUtils;
 
 public class WeiChartPresenter implements IPickerPresenter, Serializable {
     Class targetActivity;

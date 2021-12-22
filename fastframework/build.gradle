@@ -3,7 +3,9 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
-
+    dataBinding {
+        enabled = true
+    }
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 29
@@ -20,15 +22,34 @@ android {
         }
     }
 
+    lintOptions { checkReleaseBuilds false }
+
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.1.0'
     api project(path: ':xsnow')
-    api project(path: ':superbase')
+    api 'com.google.android.material:material:1.4.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    //EventBus
+    api 'org.greenrobot:eventbus:3.1.+'
+    //屏幕适配
+    api 'me.jessyan:autosize:1.2.1'
+    //加载状态布局
+    api project(path: ':statusLayoutlibrary')
+    //刷新
+    api project(path: ':refreshLib')
+    //图片选择库
+    api 'com.ypx.yimagepicker:androidx:3.1.2'
+    //Glide图片显示器
+    api 'com.github.bumptech.glide:glide:3.7.0'
+    api files('libs/BASE64Decoder.jar')
+    api 'com.google.code.gson:gson:2.8.5'
+    // 权限请求框架：https://github.com/getActivity/XXPermissions
+    api 'com.github.getActivity:XXPermissions:13.2'
+
 //    api 'com.google.code.gson:gson:2.8.5'
 }

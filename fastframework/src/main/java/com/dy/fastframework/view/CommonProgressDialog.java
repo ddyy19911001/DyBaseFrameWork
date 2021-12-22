@@ -13,8 +13,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.dy.fastframework.R;
+import com.dy.fastframework.util.ScreenUtils;
 
-import yin.deng.normalutils.utils.ScreenUtils;
 
 public class CommonProgressDialog extends Dialog {
     public ViewHolder holder;

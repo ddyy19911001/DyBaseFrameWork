@@ -30,10 +30,11 @@ import android.widget.FrameLayout;
 
 import androidx.core.util.Pair;
 
+import com.dy.fastframework.util.LogUtils;
+
 import java.util.HashSet;
 import java.util.Set;
 
-import yin.deng.normalutils.utils.LogUtils;
 
 public class MyWebView extends WebView {
     public FrameLayout mFrameLayout;

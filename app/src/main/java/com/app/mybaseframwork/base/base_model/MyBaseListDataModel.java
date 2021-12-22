@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.mybaseframwork.R;
 import com.app.mybaseframwork.base.config.SystemConfig;
 import com.dy.fastframework.util.ActivityLoadUtil;
+import com.dy.fastframework.util.MyUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.help.MyQuckAdapter;
@@ -24,7 +25,6 @@ import java.util.List;
 
 import me.bakumon.statuslayoutmanager.library.OnStatusChildClickListener;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
-import yin.deng.normalutils.utils.MyUtils;
 
 
 /**
@@ -59,15 +59,16 @@ public abstract class MyBaseListDataModel<T,V extends MyQuckAdapter<T>>{
         setRecycleViewManagerAndAdapter(onCreateLayoutManager());
     }
 
-    public void setLoadingRootView(View view, OnStatusChildClickListener onStatusChildClickListener){
+    public void setLoadingRootView(MyBaseViewModel viewModel,View view, OnStatusChildClickListener onStatusChildClickListener){
         if(view!=null) {
-            loadingManager = createStatusLayoutManager(view,onStatusChildClickListener);
+            viewModel.setLoadingRootView(view,onStatusChildClickListener);
+            loadingManager = viewModel.loadingManager;
         }
     }
 
-    public void setLoadingRootView(View view){
+    public void setLoadingRootView(MyBaseViewModel viewModel,View view){
         if(view!=null) {
-            loadingManager = createStatusLayoutManager(view, new OnStatusChildClickListener() {
+            viewModel.setLoadingRootView(view, new OnStatusChildClickListener() {
                 @Override
                 public void onEmptyChildClick(View view) {
                     loadingManager.showLoadingLayout();
@@ -86,6 +87,25 @@ public abstract class MyBaseListDataModel<T,V extends MyQuckAdapter<T>>{
                     getNewData();
                 }
             });
+            loadingManager = viewModel.loadingManager;
+        }
+    }
+
+    public void showLoadingLayout(){
+        if(loadingManager!=null){
+            loadingManager.showLoadingLayout();
+        }
+    }
+
+    public void showEmptyLayout(){
+        if(loadingManager!=null){
+            loadingManager.showEmptyLayout();
+        }
+    }
+
+    public void showErrorLayout(){
+        if(loadingManager!=null){
+            loadingManager.showErrorLayout();
         }
     }
 

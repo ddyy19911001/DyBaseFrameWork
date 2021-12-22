@@ -2,14 +2,14 @@ package com.dy.fastframework.activity;
 
 import android.app.Activity;
 
+import com.dy.fastframework.util.AppActivityListManager;
+import com.dy.fastframework.util.MyUtils;
+import com.dy.fastframework.util.NetErroInfo;
+import com.dy.fastframework.util.ServerErrInfo;
+
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import yin.deng.normalutils.utils.MyUtils;
-import yin.deng.superbase.activity.AppActivityListManager;
-import yin.deng.superbase.activity.NetErroInfo;
-import yin.deng.superbase.activity.ServerErrInfo;
-import yin.deng.superbase.activity.SuperBaseActivity;
 
 public abstract class BaseActivity extends SuperBaseActivity {
     //服务器异常

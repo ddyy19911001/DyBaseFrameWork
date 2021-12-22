@@ -40,8 +40,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.dy.fastframework.R;
+import com.dy.fastframework.util.LogUtils;
 
-import yin.deng.normalutils.utils.LogUtils;
 
 public class RecyclerTabLayout extends RecyclerView {
 

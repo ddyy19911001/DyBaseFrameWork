@@ -1,6 +1,5 @@
 rootProject.name = "DyBaseFrameWork"
 include ':app'
-include ':superbase'
 include ':fastframework'
 include ':xsnow'
 include ':refreshLib'

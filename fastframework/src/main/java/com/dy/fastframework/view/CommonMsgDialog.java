@@ -13,9 +13,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.dy.fastframework.R;
+import com.dy.fastframework.util.NoDoubleClickListener;
+import com.dy.fastframework.util.ScreenUtils;
 
-import yin.deng.normalutils.utils.NoDoubleClickListener;
-import yin.deng.normalutils.utils.ScreenUtils;
 
 public class CommonMsgDialog extends Dialog {
     public ViewHolder holder;

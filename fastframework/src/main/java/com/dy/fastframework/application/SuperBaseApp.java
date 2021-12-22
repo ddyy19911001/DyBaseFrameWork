@@ -5,7 +5,9 @@ import android.content.Context;
 
 import com.dy.fastframework.R;
 import com.dy.fastframework.erro.CrashHandler;
+import com.dy.fastframework.util.LogUtils;
 import com.dy.fastframework.util.MyImageLoadUtil;
+import com.dy.fastframework.util.SharedPreferenceUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
@@ -16,7 +18,6 @@ import com.scwang.smartrefresh.layout.viewimpl.MyFooterView;
 import com.scwang.smartrefresh.layout.viewimpl.MyHeaderView;
 import com.vise.xsnow.http.ViseHttp;
 
-import yin.deng.normalutils.utils.SharedPreferenceUtil;
 
 
 public abstract class SuperBaseApp extends Application {
@@ -117,17 +118,17 @@ public abstract class SuperBaseApp extends Application {
      * 设置日志打印，在正式环境中不显示
      */
     public void initDebugMode(boolean isDebug) {
-        yin.deng.normalutils.utils.LogUtils.allowV= isDebug;
-        yin.deng.normalutils.utils.LogUtils.allowD= isDebug;
-        yin.deng.normalutils.utils.LogUtils.allowE= isDebug;
-        yin.deng.normalutils.utils.LogUtils.allowI= isDebug;
-        yin.deng.normalutils.utils.LogUtils.allowW= isDebug;
+        LogUtils.allowV= isDebug;
+        LogUtils.allowD= isDebug;
+        LogUtils.allowE= isDebug;
+        LogUtils.allowI= isDebug;
+        LogUtils.allowW= isDebug;
 
-        yin.deng.superbase.activity.LogUtils.allowV= isDebug;
-        yin.deng.superbase.activity.LogUtils.allowD= isDebug;
-        yin.deng.superbase.activity.LogUtils.allowE= isDebug;
-        yin.deng.superbase.activity.LogUtils.allowI= isDebug;
-        yin.deng.superbase.activity.LogUtils.allowW= isDebug;
+        LogUtils.allowV= isDebug;
+        LogUtils.allowD= isDebug;
+        LogUtils.allowE= isDebug;
+        LogUtils.allowI= isDebug;
+        LogUtils.allowW= isDebug;
 
         me.jessyan.autosize.utils.AutoSizeLog.setDebug(isDebug);
     }

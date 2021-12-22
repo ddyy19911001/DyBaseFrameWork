@@ -12,8 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dy.fastframework.R;
+import com.dy.fastframework.util.ScreenUtils;
 
-import yin.deng.normalutils.utils.ScreenUtils;
 
 /**
  * 一般用于公告和系统更新提示

@@ -27,15 +27,14 @@ import androidx.fragment.app.Fragment;
 import com.app.mybaseframwork.R;
 import com.app.mybaseframwork.base.BaseApp;
 import com.dy.fastframework.util.ActivityLoadUtil;
+import com.dy.fastframework.util.NoDoubleClickListener;
+import com.dy.fastframework.util.SharedPreferenceUtil;
+import com.dy.fastframework.util.ToastUtil;
 import com.dy.fastframework.view.CommonMsgDialog;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import me.bakumon.statuslayoutmanager.library.OnStatusChildClickListener;
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager;
-import yin.deng.normalutils.utils.MyUtils;
-import yin.deng.normalutils.utils.NoDoubleClickListener;
-import yin.deng.normalutils.utils.SharedPreferenceUtil;
-import yin.deng.normalutils.utils.BaseToastUtil;
 
 
 /**
@@ -48,7 +47,7 @@ public abstract class MyBaseViewModel<T extends ViewDataBinding> implements OnSt
     public StatusLayoutManager loadingManager;
     public Activity activity;
     public Fragment fragment;
-    private BaseToastUtil toast;
+    private ToastUtil toast;
     public T binding;//用于快速找到对应控件
     public OnStatusChildClickListener onStatusChildClickListener;
 
@@ -326,6 +325,26 @@ public abstract class MyBaseViewModel<T extends ViewDataBinding> implements OnSt
     }
 
 
+
+    public void showLoadingLayout(){
+        if(loadingManager!=null){
+            loadingManager.showLoadingLayout();
+        }
+    }
+
+    public void showEmptyLayout(){
+        if(loadingManager!=null){
+            loadingManager.showEmptyLayout();
+        }
+    }
+
+    public void showErrorLayout(){
+        if(loadingManager!=null){
+            loadingManager.showErrorLayout();
+        }
+    }
+
+
     public TextView getEmptyTv(){
         if(loadingManager!=null&&loadingManager.getEmptyLayout()!=null) {
             return loadingManager.getEmptyLayout().findViewById(R.id.re_try_bt);
@@ -394,13 +413,13 @@ public abstract class MyBaseViewModel<T extends ViewDataBinding> implements OnSt
     public Dialog showLoadingDialog(String msg, boolean canDismiss) {
         closeDialog();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(yin.deng.superbase.R.layout.dialog_loading, null);// 得到加载view
+        View v = inflater.inflate(R.layout.dialog_loading, null);// 得到加载view
         LinearLayout layout = (LinearLayout) v
-                .findViewById(yin.deng.superbase.R.id.dialog_loading_view);// 加载布局
-        TextView tipTextView = (TextView) v.findViewById(yin.deng.superbase.R.id.tipTextView);// 提示文字
+                .findViewById(R.id.dialog_loading_view);// 加载布局
+        TextView tipTextView = (TextView) v.findViewById(R.id.tipTextView);// 提示文字
         tipTextView.setText(msg);// 设置加载信息
 
-        Dialog loadingDialog = new Dialog(context, yin.deng.superbase.R.style.MyDialogStyle);// 创建自定义样式dialog
+        Dialog loadingDialog = new Dialog(context, R.style.MyDialogStyle);// 创建自定义样式dialog
         loadingDialog.setCancelable(canDismiss); // 是否可以按“返回键”消失
         loadingDialog.setCanceledOnTouchOutside(false); // 点击加载框以外的区域
         loadingDialog.setContentView(layout, new LinearLayout.LayoutParams(
@@ -412,7 +431,7 @@ public abstract class MyBaseViewModel<T extends ViewDataBinding> implements OnSt
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setGravity(Gravity.CENTER);
         window.setAttributes(lp);
-        window.setWindowAnimations(yin.deng.superbase.R.style.PopWindowAnimStyle);
+        window.setWindowAnimations(R.style.PopWindowAnimStyle);
         loadingDialog.show();
         this.loadingDialog = loadingDialog;
         return loadingDialog;
@@ -490,7 +509,7 @@ public abstract class MyBaseViewModel<T extends ViewDataBinding> implements OnSt
 
     public void showTs(String msg) {
         if (toast == null) {
-            toast = new BaseToastUtil(context, msg);
+            toast = new ToastUtil(msg);
         } else {
             toast.setText(msg);
         }

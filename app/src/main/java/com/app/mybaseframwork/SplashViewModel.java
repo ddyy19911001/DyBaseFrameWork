@@ -6,8 +6,8 @@ import android.view.View;
 
 import com.app.mybaseframwork.base.base_model.MyBaseViewModel;
 import com.app.mybaseframwork.databinding.ActivitySplashBinding;
+import com.dy.fastframework.util.DownTimer;
 
-import yin.deng.normalutils.utils.DownTimer;
 
 public class SplashViewModel extends MyBaseViewModel<ActivitySplashBinding> {
 

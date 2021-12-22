@@ -10,6 +10,10 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.dy.fastframework.R;
+import com.dy.fastframework.fragment.BasePagerAdapter;
+import com.dy.fastframework.util.LogUtils;
+import com.dy.fastframework.util.PicLoadUtil;
+import com.dy.fastframework.util.ScreenUtils;
 import com.dy.fastframework.view.NoScrollViewPager;
 import com.vise.xsnow.http.ViseHttp;
 import com.vise.xsnow.http.config.HttpGlobalConfig;
@@ -17,10 +21,6 @@ import com.vise.xsnow.http.config.HttpGlobalConfig;
 import java.util.ArrayList;
 import java.util.List;
 
-import yin.deng.normalutils.utils.LogUtils;
-import yin.deng.normalutils.utils.PicLoadUtil;
-import yin.deng.superbase.activity.ScreenUtils;
-import yin.deng.superbase.fragment.BasePagerAdapter;
 
 /**
  * 专门针对底部有多个按钮的界面设计快速布局的一个activity
